@@ -13,6 +13,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using AtaRK.WebAPI.Authentication;
+using AtaRK.EF.DataContext;
+using Microsoft.EntityFrameworkCore;
+using AtaRK.BLL.Implementations;
+using AtaRK.BLL.Interfaces;
+using AtaRK.DAL.Interfaces;
+using AtaRK.DAL.Implementations;
+using FluentValidation.AspNetCore;
 
 namespace AtaRK.WebAPI
 {
@@ -28,14 +38,44 @@ namespace AtaRK.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddDbContext<AtaRKDataContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection"));
+            });
+
+            services.AddScoped<DbContext, AtaRKDataContext>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = AuthOptions.ISSUER,
+                        ValidateAudience = true,
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+
+            services
+                .AddControllers()
+                .AddNewtonsoftJson()
+                .AddFluentValidation(configuration =>
+                {
+                    configuration.RegisterValidatorsFromAssembly(this.GetType().Assembly);
+                });
 
             services.AddHttpContextAccessor();
 
-            services.AddReact();
+            services.AddTransient<IEncryptionService, EncryptionService>();
 
-            services.AddJsEngineSwitcher(options => options.DefaultEngineName = V8JsEngine.EngineName)
-                .AddV8();
+            services.AddTransient<IAccountService, AccountService>();
+
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +84,7 @@ namespace AtaRK.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } 
+            }
 
             app.UseRouting();
 
