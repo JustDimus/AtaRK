@@ -22,13 +22,13 @@ namespace AtaRK.BLL.Implementations
             {
                 aes.IV = Convert.FromBase64String(INITIALIZATION_VECTOR);
                 aes.Key = Convert.FromBase64String(ENCRYPTION_KEY);
-                ICryptoTransform encryption = aes.CreateEncryptor();
+                ICryptoTransform encryptor = aes.CreateEncryptor();
 
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(ms, encryption, CryptoStreamMode.Write))
+                    using (CryptoStream cryptoStream = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                     {
-                        using (StreamWriter writer = new StreamWriter(cryptoStream))
+                        using (StreamWriter writer = new StreamWriter(cryptoStream, Encoding.Unicode))
                         {
                             writer.Write(data);
                         }
@@ -50,13 +50,13 @@ namespace AtaRK.BLL.Implementations
             {
                 aes.IV = Convert.FromBase64String(INITIALIZATION_VECTOR);
                 aes.Key = Convert.FromBase64String(ENCRYPTION_KEY);
-                ICryptoTransform encryption = aes.CreateEncryptor();
+                ICryptoTransform decryptor = aes.CreateDecryptor();
 
-                using (MemoryStream ms = new MemoryStream())
+                using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(data)))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream(ms, encryption, CryptoStreamMode.Read))
+                    using (CryptoStream cryptoStream = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                     {
-                        using (StreamReader reader = new StreamReader(cryptoStream))
+                        using (StreamReader reader = new StreamReader(cryptoStream, Encoding.Unicode))
                         {
                             return reader.ReadLine();
                         }

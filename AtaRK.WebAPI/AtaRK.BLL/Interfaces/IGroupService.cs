@@ -8,6 +8,6 @@ namespace AtaRK.BLL.Interfaces
 {
     public interface IGroupService
     {
-        Task<ServiceResult> CreateGroupAsync()
+        Task<ServiceResult> CreateGroupAsync();
     }
 }

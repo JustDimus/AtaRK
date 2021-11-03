@@ -9,6 +9,8 @@ namespace AtaRK.WebAPI.Authentication
 {
     public class AuthOptions
     {
+        public const string USER_AUTHORIZATION_DATA = "AuthorizationInfo";
+
         public const string ISSUER = "MyAuthServer";
 
         public const string AUDIENCE = "MyAuthClient";

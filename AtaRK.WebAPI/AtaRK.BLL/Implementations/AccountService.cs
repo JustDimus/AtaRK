@@ -34,12 +34,12 @@ namespace AtaRK.BLL.Implementations
             this._accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
-        public async Task<ServiceResult<string>> LoginAsync(AccountCredentials credentials)
+        public async Task<ServiceResult<AuthorizationInfo>> LoginAsync(AccountCredentials credentials)
         {
             if (credentials == null)
             {
                 this._logger.Error($"{nameof(credentials)} is null");
-                return ServiceResult<string>.Instance(false);
+                return ServiceResult<AuthorizationInfo>.Instance(false);
             }
 
             try
@@ -50,28 +50,32 @@ namespace AtaRK.BLL.Implementations
 
                 if (account == null)
                 {
-                    return ServiceResult<string>.Instance(false);
+                    return ServiceResult<AuthorizationInfo>.Instance(false);
                 }
 
-                var encryptedId = this._authorizationService.GetAccountIdentifier(account.Id);
+                var authorizationInfo = new AuthorizationInfo()
+                {
+                    Email = account.Email,
+                    Id = account.Id
+                };
 
-                return encryptedId;
+                return authorizationInfo;
             }
             catch (Exception ex)
             {
                 this._logger.Info(ex, ex.InnerException.Message);
-                return ServiceResult<string>.Instance(false);
+                return ServiceResult<AuthorizationInfo>.Instance(false);
             }
         }
 
-        public async Task<ServiceResult<string>> RegisterAsync(AccountRegistrationData registrationData)
+        public async Task<ServiceResult<AuthorizationInfo>> RegisterAsync(AccountRegistrationData registrationData)
         {
             if (registrationData == null
                 || registrationData.Credentials == null
                 || registrationData.Information == null)
             {
                 this._logger.Error($"Invalid data");
-                return ServiceResult<string>.Instance(false);
+                return ServiceResult<AuthorizationInfo>.Instance(false);
             }
 
             Account account = new Account()
@@ -90,14 +94,18 @@ namespace AtaRK.BLL.Implementations
 
                 await this._accountRepository.SaveAsync();
 
-                var encryptedId = this._authorizationService.GetAccountIdentifier(account.Id);
+                var authorizationInfo = new AuthorizationInfo()
+                {
+                    Id = account.Id,
+                    Email = account.Email
+                };
 
-                return encryptedId;
+                return authorizationInfo;
             }
             catch (Exception ex)
             {
                 this._logger.Info(ex, ex.InnerException.Message);
-                return ServiceResult<string>.Instance(false);
+                return ServiceResult<AuthorizationInfo>.Instance(false);
             }
         }
     }

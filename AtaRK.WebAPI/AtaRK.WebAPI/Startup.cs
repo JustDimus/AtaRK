@@ -23,6 +23,7 @@ using AtaRK.BLL.Interfaces;
 using AtaRK.DAL.Interfaces;
 using AtaRK.DAL.Implementations;
 using FluentValidation.AspNetCore;
+using AtaRK.WebAPI.Services;
 
 namespace AtaRK.WebAPI
 {
@@ -70,6 +71,8 @@ namespace AtaRK.WebAPI
                 });
 
             services.AddHttpContextAccessor();
+
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
 
             services.AddTransient<IEncryptionService, EncryptionService>();
 

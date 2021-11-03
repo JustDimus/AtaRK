@@ -1,4 +1,5 @@
 ﻿using AtaRK.BLL.Interfaces;
+using AtaRK.BLL.Models;
 using AtaRK.BLL.Models.DTO;
 using AtaRK.WebAPI.Authentication;
 using AtaRK.WebAPI.Models;
@@ -24,10 +25,15 @@ namespace AtaRK.WebAPI.Controllers
 
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
+        private readonly BLL.Interfaces.IAuthorizationService _authorizationService;
+
         public AccountController(
-            IAccountService accountService)
+            IAccountService accountService,
+            BLL.Interfaces.IAuthorizationService authorizationServices)
         {
             this._accountService = accountService;
+
+            this._authorizationService = authorizationServices;
         }
 
         [HttpGet]
@@ -35,7 +41,7 @@ namespace AtaRK.WebAPI.Controllers
         [Route("info")]
         public async Task<IActionResult> GetInformation()
         {
-            throw new NotImplementedException();
+            return Ok();
         }
 
         [HttpPost]
@@ -60,7 +66,7 @@ namespace AtaRK.WebAPI.Controllers
 
             if (serviceResult.IsSuccessful)
             {
-                return CreateToken(registrationData.Credentials.Email) ?? Problem();
+                return CreateToken(serviceResult.Result) ?? Problem();
             }
             else
             {
@@ -82,7 +88,7 @@ namespace AtaRK.WebAPI.Controllers
 
             if (serviceResult.IsSuccessful)
             {
-                return this.CreateToken(credentials.Email) ?? Problem();
+                return this.CreateToken(serviceResult.Result) ?? Problem();
             }
             else
             {
@@ -90,15 +96,17 @@ namespace AtaRK.WebAPI.Controllers
             }
         }
 
-        private IActionResult CreateToken(string email, string accountId)
+        private IActionResult CreateToken(AuthorizationInfo authorizationInfo)
         {
-            if (email == null)
+            if (authorizationInfo == null)
             {
-                this._logger.Error($"{nameof(email)} is null");
+                this._logger.Error($"{nameof(authorizationInfo)} is null");
                 return null;
             }
 
-            var identity = this.GetIdentity(email, accountId);
+            string authorizationData = this._authorizationService.GetAccountIdentifier(authorizationInfo);
+
+            var identity = this.GetIdentity(authorizationData);
 
             if (identity == null)
             {
@@ -120,25 +128,23 @@ namespace AtaRK.WebAPI.Controllers
 
             var response = new
             {
-                access_token = encodedJwt,
-                username = email
+                access_token = encodedJwt
             };
 
             return new JsonResult(response);
         }
 
-        private ClaimsIdentity GetIdentity(string email, string accountId)
+        private ClaimsIdentity GetIdentity(string authorizationData)
         {
-            if (email == null)
+            if (authorizationData == null)
             {
-                this._logger.Error($"{nameof(email)} is null");
+                this._logger.Error($"{nameof(authorizationData)} is null");
                 return null;
             }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, email),
-                new Claim("")
+                new Claim(AuthOptions.USER_AUTHORIZATION_DATA, authorizationData)
             };
 
             ClaimsIdentity identity = new ClaimsIdentity(

@@ -47,9 +47,12 @@ namespace AtaRK.DAL.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
         {
-            throw new NotImplementedException();
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return await this._context.Set<TEntity>().FirstOrDefaultAsync(condition, source.Token);
+            }
         }
 
         public async Task SaveAsync()

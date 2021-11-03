@@ -9,8 +9,8 @@ namespace AtaRK.BLL.Interfaces
 {
     public interface IAccountService
     {
-        Task<ServiceResult<string>> RegisterAsync(AccountRegistrationData registrationData);
+        Task<ServiceResult<AuthorizationInfo>> RegisterAsync(AccountRegistrationData registrationData);
 
-        Task<ServiceResult<string>> LoginAsync(AccountCredentials credentials);
+        Task<ServiceResult<AuthorizationInfo>> LoginAsync(AccountCredentials credentials);
     }
 }

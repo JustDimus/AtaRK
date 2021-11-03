@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AtaRK.BLL\AtaRK.BLL.csproj" />
     <ProjectReference Include="..\AtaRK.EF\AtaRK.EF.csproj" />
+    <ProjectReference Include="..\AtaRK.Utility\AtaRK.Utility.csproj" />
   </ItemGroup>
 
 
