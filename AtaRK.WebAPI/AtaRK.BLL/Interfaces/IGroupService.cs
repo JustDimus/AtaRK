@@ -1,4 +1,5 @@
 ﻿using AtaRK.BLL.Models;
+using AtaRK.BLL.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,6 @@ namespace AtaRK.BLL.Interfaces
 {
     public interface IGroupService
     {
-        Task<ServiceResult> CreateGroupAsync();
+        Task<ServiceResult> CreateGroupAsync(GroupCreationInfo groupInfo);
     }
 }
