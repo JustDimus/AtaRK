@@ -13,11 +13,6 @@ namespace AtaRK.EF.EntityConfigurations
         {
             builder.HasKey(i => i.Id).IsClustered(true);
 
-            builder
-                .HasMany(i => i.Devices)
-                .WithOne(i => i.Group)
-                .HasForeignKey(i => i.GroupId);
-
             builder.Property(i => i.GroupName).IsRequired(true);
         }
     }

@@ -67,7 +67,7 @@ namespace AtaRK.BLL.Implementations
 
         public string Hash(string data)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
+            using (SHA256 sha256Hash = SHA256.Create("SHA-256"))
             {
                 byte[] sourceArray = Encoding.UTF8.GetBytes(data);
 

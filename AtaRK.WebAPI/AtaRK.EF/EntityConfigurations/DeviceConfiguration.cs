@@ -16,12 +16,8 @@ namespace AtaRK.EF.EntityConfigurations
             builder
                 .HasOne(i => i.Group)
                 .WithMany(i => i.Devices)
-                .HasForeignKey(i => i.GroupId);
-
-            builder
-                .HasMany(i => i.Configurations)
-                .WithOne(i => i.Device)
-                .HasForeignKey(i => i.DeviceId);
+                .HasForeignKey(i => i.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(i => i.Type).IsRequired(true);
 

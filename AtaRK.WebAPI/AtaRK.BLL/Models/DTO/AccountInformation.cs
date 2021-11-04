@@ -9,7 +9,5 @@ namespace AtaRK.BLL.Models.DTO
         public string FirstName { get; set; }
 
         public string SecondName { get; set; }
-
-        public string RegistrationDate { get; set; }
     }
 }

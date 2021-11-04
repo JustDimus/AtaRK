@@ -13,11 +13,6 @@ namespace AtaRK.EF.EntityConfigurations
         {
             builder.HasKey(i => i.Id).IsClustered(true);
 
-            builder
-                .HasMany(i => i.Groups)
-                .WithOne(i => i.Account)
-                .HasForeignKey(i => i.AccountId);
-
             builder.HasIndex(i => i.Email).IsUnique(true);
         }
     }

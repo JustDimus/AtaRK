@@ -36,6 +36,8 @@ namespace AtaRK.DAL.Interfaces
 
         Task DeleteAsync(TEntity entity);
 
+        Task DeleteAsync(Expression<Func<TEntity, bool>> condition);
+
         Task<int> CountAsync(TEntity entity);
 
         Task SaveAsync();

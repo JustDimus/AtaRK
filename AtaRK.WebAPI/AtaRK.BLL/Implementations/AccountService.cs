@@ -26,8 +26,6 @@ namespace AtaRK.BLL.Implementations
             IAuthorizationService authorizationService,
             IRepository<Account> accountRepository)
         {
-            //this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
             this._encryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
             this._authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
 
@@ -106,6 +104,99 @@ namespace AtaRK.BLL.Implementations
             {
                 this._logger.Info(ex, ex.InnerException.Message);
                 return ServiceResult<AuthorizationInfo>.Instance(false);
+            }
+        }
+    
+        public async Task<ServiceResult> ChangeAccountAsync(AccountInformation accountInfo)
+        {
+            if (accountInfo == null)
+            {
+                this._logger.Error($"{nameof(accountInfo)} is null");
+                return false;
+            }
+
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            if (account == null)
+            {
+                this._logger.Error("Unable to get authorized account");
+                return false;
+            }
+
+            try
+            {
+                var currentAccount = await this._accountRepository.FirstOrDefaultAsync(i => i.Id == account.Id);
+
+                if (currentAccount == null)
+                {
+                    this._logger.Error($"Account with id '{account.Id}' doesn't exist");
+                    return false;
+                }
+
+                currentAccount.FirstName = accountInfo.FirstName;
+                currentAccount.SecondName = accountInfo.SecondName;
+
+                await this._accountRepository.UpdateAsync(currentAccount);
+
+                await this._accountRepository.SaveAsync();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                this._logger.Error(ex);
+                return false;
+            }
+        }
+
+        public async Task<ServiceResult> ChangePasswordAsync(PasswordChange passwordChange)
+        {
+            if (passwordChange == null 
+                || string.IsNullOrWhiteSpace(passwordChange.NewPassword)
+                || string.IsNullOrWhiteSpace(passwordChange.OldPassword))
+            {
+                this._logger.Error($"Invalid data");
+                return false;
+            }
+
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            if (account == null)
+            {
+                this._logger.Error("Unable to get authorized account");
+                return false;
+            }
+
+            try
+            {
+                var currentAccount = await this._accountRepository.FirstOrDefaultAsync(i => i.Id == account.Id);
+
+                if (currentAccount == null)
+                {
+                    this._logger.Error($"Account with id '{account.Id}' doesn't exist");
+                    return false;
+                }
+
+                if (!this._encryptionService.CompareWithHash(
+                    passwordChange.OldPassword,
+                    currentAccount.Password))
+                {
+                    this._logger.Error("Old password mismatch current one");
+                    return false;
+                }
+
+                currentAccount.Password = this._encryptionService.Hash(passwordChange.NewPassword);
+
+                await this._accountRepository.UpdateAsync(currentAccount);
+
+                await this._accountRepository.SaveAsync();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                this._logger.Error(ex);
+                return false;
             }
         }
     }

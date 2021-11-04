@@ -16,12 +16,14 @@ namespace AtaRK.EF.EntityConfigurations
             builder
                 .HasOne(i => i.Account)
                 .WithMany(i => i.Groups)
-                .HasForeignKey(i => i.AccountId);
+                .HasForeignKey(i => i.AccountId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(i => i.Group)
                 .WithMany(i => i.Members)
-                .HasForeignKey(i => i.GroupId);
+                .HasForeignKey(i => i.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
