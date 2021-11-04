@@ -3,6 +3,7 @@ using AtaRK.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
@@ -45,6 +46,19 @@ namespace AtaRK.DAL.Implementations
         public Task DeleteAsync(TEntity entity)
         {
             throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Expression<Func<TEntity, bool>> condition)
+        {
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return Task.Run(() =>
+                {
+                    this._context.Set<TEntity>()
+                        .RemoveRange(this._context.Set<TEntity>().Where(condition));
+                },
+                source.Token);
+            }
         }
 
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> condition)
