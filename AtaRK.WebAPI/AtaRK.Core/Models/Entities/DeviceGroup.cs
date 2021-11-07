@@ -12,6 +12,8 @@ namespace AtaRK.Core.Models.Entities
         
         public List<Device> Devices { get; set; }
 
+        public List<Invite> Invitations { get; set; }
+
         public DateTime CreationDate { get; set; }
     }
 }

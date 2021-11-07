@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AtaRK.Core.Models.Entities
+namespace AtaRK.BLL.Models.DTO
 {
     public class PasswordChange
     {

@@ -45,7 +45,14 @@ namespace AtaRK.DAL.Implementations
 
         public Task DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return Task.Run(() =>
+                {
+                    this._context.Set<TEntity>().Remove(entity);
+                },
+                source.Token);
+            }
         }
 
         public Task DeleteAsync(Expression<Func<TEntity, bool>> condition)
@@ -89,7 +96,14 @@ namespace AtaRK.DAL.Implementations
 
         public Task<IEnumerable<TOut>> SelectAsync<TOut>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TOut>> selector)
         {
-            throw new NotImplementedException();
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return Task.Run(() =>
+                {
+                    return this._context.Set<TEntity>().Where(condition).Select(selector).AsEnumerable();
+                },
+                source.Token);
+            }
         }
 
         public Task<IEnumerable<TOut>> SelectAsync<TOut>(Expression<Func<TEntity, bool>> condition, Expression<Func<TEntity, TOut>> selector, int skip, int take)
@@ -99,7 +113,14 @@ namespace AtaRK.DAL.Implementations
 
         public Task UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return Task.Run(() =>
+                {
+                    this._context.Set<TEntity>().Update(entity);
+                },
+                source.Token);
+            }
         }
     }
 }

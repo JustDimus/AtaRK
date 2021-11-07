@@ -75,6 +75,7 @@ namespace AtaRK.WebAPI
             services.AddTransient<IAuthorizationService, AuthorizationService>();
 
             services.AddTransient<IEncryptionService, EncryptionService>();
+            services.AddTransient<IJsonEncryptionService, EncryptionService>();
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IGroupService, GroupService>();

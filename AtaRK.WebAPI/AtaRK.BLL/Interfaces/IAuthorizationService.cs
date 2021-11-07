@@ -7,10 +7,10 @@ namespace AtaRK.BLL.Interfaces
 {
     public interface IAuthorizationService
     {
-        AuthorizationInfo GetAuthorizedAccountFromCurrentContext();
+        AuthorizationIdentifier GetAuthorizedAccountFromCurrentContext();
 
-        AuthorizationInfo GetAuthorizedAccount(string authorizationData);
+        AuthorizationIdentifier GetAuthorizedAccount(string authorizationData);
 
-        string GetAccountIdentifier(AuthorizationInfo authorizationInfo);
+        string CreateAccountIdentifier(AuthorizationIdentifier authorizationInfo);
     }
 }

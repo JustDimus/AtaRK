@@ -5,12 +5,12 @@ using System.Text;
 
 namespace AtaRK.BLL.Models
 {
-    public class AuthorizationInfo
+    public class GroupIdentifier
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
-        [JsonProperty("email")]
-        public string Email { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

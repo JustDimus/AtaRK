@@ -32,12 +32,80 @@ namespace AtaRK.BLL.Implementations
             this._accountRepository = accountRepository ?? throw new ArgumentNullException(nameof(accountRepository));
         }
 
-        public async Task<ServiceResult<AuthorizationInfo>> LoginAsync(AccountCredentials credentials)
+        public async Task<ServiceResult<AccountInformation>> GetAuthorizedAccountInformationAsync()
+        {
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            if (account == null)
+            {
+                this._logger.Error("Unauthorized operation");
+                return ServiceResult<AccountInformation>.Instance(false);
+            }
+
+            try
+            {
+                var existingAccount = await this._accountRepository.FirstOrDefaultAsync(i => i.Id == account.Id);
+
+                if (existingAccount == null)
+                {
+                    this._logger.Error($"Account with such id: '{account.Id}' doesn't exist");
+                    return ServiceResult<AccountInformation>.Instance(false);
+                }
+
+                var result = new AccountInformation()
+                {
+                    FirstName = existingAccount.FirstName,
+                    SecondName = existingAccount.SecondName
+                };
+
+                return ServiceResult<AccountInformation>.FromResult(result);
+            }
+            catch (Exception ex)
+            {
+                this._logger.Error(ex, ex.InnerException.Message);
+                return ServiceResult<AccountInformation>.Instance(false);
+            }
+        }
+
+        public async Task<ServiceResult<AuthorizationIdentifier>> GetAccountByEmailAsync(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                this._logger.Error($"{nameof(email)} is invalid: '{email}'");
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
+            }
+
+            try
+            {
+                var account = await this._accountRepository.FirstOrDefaultAsync(i => i.Email == email);
+
+                if (account == null)
+                {
+                    _logger.Error($"Account with that email: '{email}' doesn't exist");
+                    return ServiceResult<AuthorizationIdentifier>.Instance(false);
+                }
+
+                AuthorizationIdentifier authInfo = new AuthorizationIdentifier()
+                {
+                    Id = account.Id,
+                    Email = account.Email
+                };
+
+                return authInfo;
+            }
+            catch (Exception ex)
+            {
+                this._logger.Error(ex, ex.InnerException.Message);
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
+            }
+        }
+
+        public async Task<ServiceResult<AuthorizationIdentifier>> LoginAsync(AccountCredentials credentials)
         {
             if (credentials == null)
             {
                 this._logger.Error($"{nameof(credentials)} is null");
-                return ServiceResult<AuthorizationInfo>.Instance(false);
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
             }
 
             try
@@ -48,10 +116,10 @@ namespace AtaRK.BLL.Implementations
 
                 if (account == null)
                 {
-                    return ServiceResult<AuthorizationInfo>.Instance(false);
+                    return ServiceResult<AuthorizationIdentifier>.Instance(false);
                 }
 
-                var authorizationInfo = new AuthorizationInfo()
+                var authorizationInfo = new AuthorizationIdentifier()
                 {
                     Email = account.Email,
                     Id = account.Id
@@ -62,18 +130,18 @@ namespace AtaRK.BLL.Implementations
             catch (Exception ex)
             {
                 this._logger.Info(ex, ex.InnerException.Message);
-                return ServiceResult<AuthorizationInfo>.Instance(false);
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
             }
         }
 
-        public async Task<ServiceResult<AuthorizationInfo>> RegisterAsync(AccountRegistrationData registrationData)
+        public async Task<ServiceResult<AuthorizationIdentifier>> RegisterAsync(AccountRegistrationData registrationData)
         {
             if (registrationData == null
                 || registrationData.Credentials == null
                 || registrationData.Information == null)
             {
                 this._logger.Error($"Invalid data");
-                return ServiceResult<AuthorizationInfo>.Instance(false);
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
             }
 
             Account account = new Account()
@@ -92,7 +160,7 @@ namespace AtaRK.BLL.Implementations
 
                 await this._accountRepository.SaveAsync();
 
-                var authorizationInfo = new AuthorizationInfo()
+                var authorizationInfo = new AuthorizationIdentifier()
                 {
                     Id = account.Id,
                     Email = account.Email
@@ -103,10 +171,10 @@ namespace AtaRK.BLL.Implementations
             catch (Exception ex)
             {
                 this._logger.Info(ex, ex.InnerException.Message);
-                return ServiceResult<AuthorizationInfo>.Instance(false);
+                return ServiceResult<AuthorizationIdentifier>.Instance(false);
             }
         }
-    
+
         public async Task<ServiceResult> ChangeAccountAsync(AccountInformation accountInfo)
         {
             if (accountInfo == null)
@@ -142,16 +210,16 @@ namespace AtaRK.BLL.Implementations
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                this._logger.Error(ex);
+                this._logger.Error(ex, ex.InnerException.Message);
                 return false;
             }
         }
 
         public async Task<ServiceResult> ChangePasswordAsync(PasswordChange passwordChange)
         {
-            if (passwordChange == null 
+            if (passwordChange == null
                 || string.IsNullOrWhiteSpace(passwordChange.NewPassword)
                 || string.IsNullOrWhiteSpace(passwordChange.OldPassword))
             {
@@ -193,9 +261,9 @@ namespace AtaRK.BLL.Implementations
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                this._logger.Error(ex);
+                this._logger.Error(ex, ex.InnerException.Message);
                 return false;
             }
         }

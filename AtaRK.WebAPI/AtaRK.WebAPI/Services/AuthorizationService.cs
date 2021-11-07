@@ -14,36 +14,33 @@ namespace AtaRK.WebAPI.Services
 {
     public class AuthorizationService : IAuthorizationService
     {
-        private readonly IEncryptionService _encryptionService;
+        private readonly IJsonEncryptionService _encryptionService;
 
         private readonly IHttpContextAccessor _contextAccessor;
 
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public AuthorizationService(
-            IEncryptionService encryptionService,
+            IJsonEncryptionService encryptionService,
             IHttpContextAccessor contextAccessor)
         {
             this._encryptionService = encryptionService ?? throw new ArgumentNullException(nameof(encryptionService));
             this._contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
         }
 
-        public string GetAccountIdentifier(AuthorizationInfo authorizationInfo)
+        public string CreateAccountIdentifier(AuthorizationIdentifier authorizationInfo)
         {
-            var convertedInfo = JsonHelper.Serialize(authorizationInfo);
+            string encryptedInfo = this._encryptionService.Encrypt(authorizationInfo);
 
-            if (convertedInfo == null)
+            if (encryptedInfo == null)
             {
-                this._logger.Error("Unable to convert authorization info");
-                return null;
+                this._logger.Error("Unable to encrypt authorization info");
             }
 
-            string encryptedData = this._encryptionService.Encrypt(convertedInfo);
-
-            return encryptedData;
+            return encryptedInfo;
         }
 
-        public AuthorizationInfo GetAuthorizedAccountFromCurrentContext()
+        public AuthorizationIdentifier GetAuthorizedAccountFromCurrentContext()
         {
             var authorizationData = this._contextAccessor.HttpContext.User.Claims
                 .FirstOrDefault(i => i.Type == AuthOptions.USER_AUTHORIZATION_DATA);
@@ -57,27 +54,16 @@ namespace AtaRK.WebAPI.Services
             return this.GetAuthorizedAccount(authorizationData.Value);
         }
 
-        public AuthorizationInfo GetAuthorizedAccount(string authorizationData)
+        public AuthorizationIdentifier GetAuthorizedAccount(string authorizationData)
         {
-            string decryptedData = this._encryptionService.Decrypt(authorizationData);
+            var authorizationInfo = this._encryptionService.Decrypt<AuthorizationIdentifier>(authorizationData);
 
-            if (decryptedData != null)
+            if (authorizationInfo == null)
             {
-                var authorizationInfo = JsonHelper.Deserialize<AuthorizationInfo>(decryptedData);
-
-                if (authorizationInfo != null)
-                {
-                    return authorizationInfo;
-                }
-
                 this._logger.Error($"{nameof(authorizationInfo)} is null");
             }
-            else
-            {
-                this._logger.Error($"{nameof(decryptedData)} is null");
-            }
 
-            return null;
+            return authorizationInfo;
         }
     }
 }

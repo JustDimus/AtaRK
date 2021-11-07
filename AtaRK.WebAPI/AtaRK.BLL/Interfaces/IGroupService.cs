@@ -10,5 +10,17 @@ namespace AtaRK.BLL.Interfaces
     public interface IGroupService
     {
         Task<ServiceResult> CreateGroupAsync(GroupCreationInfo groupInfo);
+
+        Task<ServiceResult> UpdateGroupAsync(GroupIdentifier groupInfo, string newName);
+
+        Task<ServiceResult> DeleteGroupAsync(GroupIdentifier groupInfo);
+
+        Task<ServiceResult> InviteAccountToGroup(GroupIdentifier groupInfo, AuthorizationIdentifier accountInfo);
+
+        Task<ServiceResult<List<GroupIdentifier>>> GetAccountGroupList();
+
+        Task<ServiceResult<List<InviteIdentifier>>> GetAccountInvites();
+
+        Task<ServiceResult> OperateInvitation(InviteIdentifier invite, bool doAccept);
     }
 }

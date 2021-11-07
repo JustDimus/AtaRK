@@ -41,7 +41,20 @@ namespace AtaRK.WebAPI.Controllers
         [Route("info")]
         public async Task<IActionResult> GetInformation()
         {
-            return Ok();
+            var serviceResult = await this._accountService.GetAuthorizedAccountInformationAsync();
+
+            if (serviceResult.IsSuccessful)
+            {
+                var result = new AccountInformationVM()
+                {
+                    FirstName = serviceResult.Result.FirstName,
+                    SecondName = serviceResult.Result.SecondName
+                };
+
+                return new JsonResult(result);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
@@ -64,7 +77,7 @@ namespace AtaRK.WebAPI.Controllers
 
             var serviceResult = await this._accountService.RegisterAsync(registrationData);
 
-            if (serviceResult.IsSuccessful)
+            if (serviceResult)
             {
                 return CreateToken(serviceResult.Result) ?? Problem();
             }
@@ -72,6 +85,43 @@ namespace AtaRK.WebAPI.Controllers
             {
                 return Conflict();
             }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("getid")]
+        public async Task<IActionResult> GetAccountId([FromBody]SingleBodyParameter requiredAccount)
+        {
+            var serviceResult = await this._accountService.GetAccountByEmailAsync(requiredAccount.Body);
+
+            if (serviceResult)
+            {
+                var accountIdentifier = this._authorizationService.CreateAccountIdentifier(serviceResult.Result);
+                return new JsonResult(new { accountId = accountIdentifier });
+            }
+
+            return Conflict();
+        }
+        
+        [HttpPost]
+        [Authorize]
+        [Route("change")]
+        public async Task<IActionResult> ChangeAccount([FromBody]AccountInformationVM accountInformation)
+        {
+            AccountInformation accountInfo = new AccountInformation()
+            {
+                FirstName = accountInformation.FirstName,
+                SecondName = accountInformation.SecondName
+            };
+
+            var serviceResult = await this._accountService.ChangeAccountAsync(accountInfo);
+
+            if (serviceResult)
+            {
+                return Ok();
+            }
+
+            return Forbid();
         }
 
         [HttpPost]
@@ -86,7 +136,7 @@ namespace AtaRK.WebAPI.Controllers
 
             var serviceResult = await this._accountService.LoginAsync(credentials);
 
-            if (serviceResult.IsSuccessful)
+            if (serviceResult)
             {
                 return this.CreateToken(serviceResult.Result) ?? Problem();
             }
@@ -96,7 +146,7 @@ namespace AtaRK.WebAPI.Controllers
             }
         }
 
-        private IActionResult CreateToken(AuthorizationInfo authorizationInfo)
+        private IActionResult CreateToken(AuthorizationIdentifier authorizationInfo)
         {
             if (authorizationInfo == null)
             {
@@ -104,7 +154,7 @@ namespace AtaRK.WebAPI.Controllers
                 return null;
             }
 
-            string authorizationData = this._authorizationService.GetAccountIdentifier(authorizationInfo);
+            string authorizationData = this._authorizationService.CreateAccountIdentifier(authorizationInfo);
 
             var identity = this.GetIdentity(authorizationData);
 

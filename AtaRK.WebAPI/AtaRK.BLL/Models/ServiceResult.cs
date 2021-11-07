@@ -23,6 +23,11 @@ namespace AtaRK.BLL.Models
                 IsSuccessful = status
             };
         }
+
+        public static implicit operator bool(ServiceResult result)
+        {
+            return result.IsSuccessful;
+        }
     }
 
     public class ServiceResult<TResult> : ServiceResult
@@ -37,7 +42,7 @@ namespace AtaRK.BLL.Models
             };
         }
 
-        public static ServiceResult<TResult> Instance(TResult result)
+        public static ServiceResult<TResult> FromResult(TResult result)
         {
             return new ServiceResult<TResult>()
             {
@@ -48,11 +53,7 @@ namespace AtaRK.BLL.Models
 
         public static implicit operator ServiceResult<TResult>(TResult result)
         {
-            return new ServiceResult<TResult>()
-            {
-                IsSuccessful = true,
-                Result = result
-            };
+            return FromResult(result);
         }
     }
 }

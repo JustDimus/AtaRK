@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AtaRK.DAL\AtaRK.DAL.csproj" />
+    <ProjectReference Include="..\AtaRK.Utility\AtaRK.Utility.csproj" />
   </ItemGroup>
 
 </Project>

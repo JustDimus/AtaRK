@@ -18,6 +18,10 @@ namespace AtaRK.Core.Models.Entities
 
         public DateTime ModificationDate { get; set; }
 
+        public List<Invite> CreatedInvitations { get; set; }
+
+        public List<Invite> Invitations { get; set; }
+
         public List<AccountDeviceGroup> Groups { get; set; }
     }
 }
