@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AtaRK.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +15,6 @@ namespace AtaRK.Core.Models.Entities
 
         public Guid GroupId { get; set; }
 
-        public List<DeviceConfiguration> Configurations { get; set; }
+        public List<Configuration> Configurations { get; set; }
     }
 }

@@ -191,7 +191,25 @@ namespace AtaRK.WebAPI.Controllers
         [Route("groupinfo")]
         public async Task<IActionResult> GetGroupInfo([FromBody] SingleBodyParameter groupId)
         {
-            throw new NotImplementedException();
+            var groupInfo = this.DeserializeGroupInfo(groupId.Body);
+
+            if (groupId != null)
+            {
+                var serviceResult = await this._groupService.GetGroupInformation(groupInfo);
+
+                if (serviceResult)
+                {
+                    var result = new GroupInformationVM()
+                    {
+                        GroupName = serviceResult.Result.GroupName,
+                        UserRole = serviceResult.Result.UserRole
+                    };
+
+                    return new JsonResult(result);
+                }
+            }
+
+            return BadRequest();
         }
 
         private string SerializeGroupInfo(GroupIdentifier groupInfo)

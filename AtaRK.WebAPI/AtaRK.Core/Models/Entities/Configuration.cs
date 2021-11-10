@@ -6,8 +6,12 @@ namespace AtaRK.Core.Models.Entities
 {
     public class Configuration : BaseModel
     {
-        public DeviceSetting Setting { get; set; }
+        public string Setting { get; set; }
 
         public string Value { get; set; }
+
+        public Device Device { get; set; }
+
+        public Guid DeviceId { get; set; }
     }
 }

@@ -22,5 +22,7 @@ namespace AtaRK.BLL.Interfaces
         Task<ServiceResult<List<InviteIdentifier>>> GetAccountInvites();
 
         Task<ServiceResult> OperateInvitation(InviteIdentifier invite, bool doAccept);
+
+        Task<ServiceResult<GroupInfo>> GetGroupInformation(GroupIdentifier group);
     }
 }

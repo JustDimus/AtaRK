@@ -265,6 +265,11 @@ namespace AtaRK.BLL.Implementations
             }
         }
 
+        public Task<ServiceResult<GroupInfo>> GetGroupInformation(GroupIdentifier group)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ServiceResult> UpdateGroupAsync(GroupIdentifier groupInfo, string newName)
         {
             if (groupInfo == null)
