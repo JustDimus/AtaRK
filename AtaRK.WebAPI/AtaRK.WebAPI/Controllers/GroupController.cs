@@ -212,6 +212,13 @@ namespace AtaRK.WebAPI.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("devices")]
+        public async Task<IActionResult> GetGroupDevices([FromBody] SingleBodyParameter groupId)
+        {
+            throw new NotImplementedException();
+        }
+
         private string SerializeGroupInfo(GroupIdentifier groupInfo)
         {
             return this._encryptionService.Encrypt(groupInfo);
