@@ -4,8 +4,7 @@ using System.Text;
 
 namespace AtaRK.Mobile.Services
 {
-    public interface IAuthorizationService
+    public interface ICredentialsService
     {
-
     }
 }
