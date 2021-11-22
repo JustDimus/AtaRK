@@ -130,9 +130,12 @@
     <value>Войти</value>
   </data>
   <data name="Login_Email" xml:space="preserve">
-    <value>Введите email</value>
+    <value>Введите вашу почту</value>
   </data>
   <data name="Login_Password" xml:space="preserve">
-    <value>Введиттен пароль</value>
+    <value>Введите пароль</value>
+  </data>
+  <data name="NetworkConnection_Error" xml:space="preserve">
+    <value>Ошибка сети...</value>
   </data>
 </root>

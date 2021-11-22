@@ -7,7 +7,10 @@
              Style="{DynamicResource BasePage}"
              NavigationPage.HasNavigationBar="False">
     
-    <StackLayout Spacing="20" Padding="0,25,0,0" HorizontalOptions="CenterAndExpand">
+    <StackLayout Spacing="20"
+                 Padding="0,25,0,0"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
         <Label Text="{Binding WelcomeText}" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
         <Image Source="app_logo.jpg" />
         <Label Text="{Binding DescriptionText}" FontSize="Medium" HorizontalTextAlignment="Center"/>

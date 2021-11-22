@@ -2,7 +2,8 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AtaRK.Mobile.App"
-             xmlns:viewModels="clr-namespace:AtaRK.Mobile.ViewModels">
+             xmlns:viewModels="clr-namespace:AtaRK.Mobile.ViewModels"
+             xmlns:converters="clr-namespace:AtaRK.Mobile.Views.Converters">
     
     <Application.Resources>
         <ResourceDictionary>
@@ -29,7 +30,22 @@
             <Style x:Key="BasePage" TargetType="ContentPage">
                 <Setter Property="BackgroundColor" Value="#FFFFFF"/>
             </Style>
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="Red"/>
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+            <Style x:Key="EntryDescription" TargetType="Label">
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            <Style x:Key="DefaultEntry" TargetType="Entry">
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="PlaceholderColor" Value="WhiteSmoke"/>
+                <Setter Property="BackgroundColor" Value="AntiqueWhite"/>
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
             <viewModels:ApplicationLocator x:Key="Locator" />
+            <converters:BoolInverseConverter x:Key="BoolInverter"/>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

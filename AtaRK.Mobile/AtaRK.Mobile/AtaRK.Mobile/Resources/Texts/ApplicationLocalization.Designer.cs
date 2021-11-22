@@ -113,5 +113,14 @@ namespace AtaRK.Mobile.Resources.Texts {
                 return ResourceManager.GetString("Login_Password", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network error....
+        /// </summary>
+        internal static string NetworkConnection_Error {
+            get {
+                return ResourceManager.GetString("NetworkConnection_Error", resourceCulture);
+            }
+        }
     }
 }

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace AtaRK.Mobile.Services.Credentials
 {
-    public interface ICredentialsService
+    public class LoginCredentials
     {
+        public string Login { get; set; }
+
+        public string Password { get; set; }
     }
 }

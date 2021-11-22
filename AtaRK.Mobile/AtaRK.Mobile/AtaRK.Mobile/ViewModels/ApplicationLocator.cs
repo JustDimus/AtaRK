@@ -1,6 +1,8 @@
 ﻿using AtaRK.Mobile.Navigation;
 using AtaRK.Mobile.Services;
+using AtaRK.Mobile.Services.Credentials;
 using AtaRK.Mobile.Services.Implementations;
+using AtaRK.Mobile.Services.Network;
 using AtaRK.Mobile.ViewModels.Pages;
 using AtaRK.Mobile.Views.Pages;
 using Nancy.TinyIoc;
@@ -26,6 +28,12 @@ namespace AtaRK.Mobile.ViewModels
             container.Register<LoginViewModel>().AsSingleton();
             container.Register<RegistrationViewModel>().AsSingleton();
             container.Register<IApplicationProperties, ApplicationProperties>();
+            container.Register<INetworkConnectionService, NetworkConnectionService>().AsSingleton();
+#if DEBUG
+            container.Register<ICredentialsManager, DesignTimeCredentialsManager>();
+#elif RELEASE
+            container.Register<ICredentialsManager, CredentialsManager>();
+#endif
 
             this.MainPageViewModel = container.Resolve<MainViewModel>();
             this.IntroPageViewModel = container.Resolve<IntroViewModel>();
@@ -46,7 +54,7 @@ namespace AtaRK.Mobile.ViewModels
 
         public RegistrationViewModel RegistrationPageViewModel { get; private set; }
 
-        #region IDisposable
+#region IDisposable
         private bool disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -70,6 +78,6 @@ namespace AtaRK.Mobile.ViewModels
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
     }
 }
