@@ -1,9 +1,12 @@
 ﻿using AtaRK.Mobile.Navigation;
+using AtaRK.Mobile.Services.Authorization;
 using AtaRK.Mobile.Services.Credentials;
 using AtaRK.Mobile.Services.Network;
 using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Localization = AtaRK.Mobile.Resources.Texts.ApplicationLocalization;
@@ -15,24 +18,31 @@ namespace AtaRK.Mobile.ViewModels.Pages
         private INavigationService _navigationService;
         private INetworkConnectionService _networkConnection;
         private ICredentialsManager _credentialsManager;
+        private IAuthorizationService _authorizationService;
 
         private bool isLoginProcessStarted = false;
-        private bool loginError = false; 
+        private bool lastAuthorizationStatus = false;
+        private bool loginError = false;
+        private bool pageLoaded = false;
 
         private IDisposable networkStateChangeDisposable;
+        private IDisposable authorizationStatusDisposable;
 
         public LoginViewModel(
             INavigationService navigationService,
             INetworkConnectionService networkConnectionService,
-            ICredentialsManager credentialsManager)
+            ICredentialsManager credentialsManager,
+            IAuthorizationService authorizationService)
         {
             this._navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             this._networkConnection = networkConnectionService ?? throw new ArgumentNullException(nameof(networkConnectionService));
             this._credentialsManager = credentialsManager ?? throw new ArgumentNullException(nameof(credentialsManager));
+            this._authorizationService = authorizationService ?? throw new ArgumentNullException(nameof(authorizationService));
 
-            this.LoginCommand = new Command(Login, () => this.CanLogin);
+            this.LoginCommand = new Command(async () => await this.Login(), () => this.CanLogin);
 
             this.networkStateChangeDisposable = this._networkConnection.Subscribe(this.OnNetworkConnectionChanged);
+            this.authorizationStatusDisposable = this._authorizationService.AuthorizationStatusObserbavle.Where(i => i).Subscribe(this.OnAuthorizationStatusChanged);
         }
 
         public string LoginButtonText => Localization.Login_Button;
@@ -88,21 +98,62 @@ namespace AtaRK.Mobile.ViewModels.Pages
             this.LoginCommand.ChangeCanExecute();
         }
 
-        public void Login()
+        public void OnAuthorizationStatusChanged(bool authorizationStatus)
         {
+            this.lastAuthorizationStatus = authorizationStatus;
+
+            if (!this.pageLoaded || !authorizationStatus)
+            {
+                return;
+            }
+
+            this._navigationService.MoveToPage(Navigation.Pages.Groups);
+        }
+
+        public async Task Login()
+        {
+            var loginData = new LoginData()
+            {
+                Email = this.emailField,
+                Password = this.passwordField
+            };
+
             this.isLoginProcessStarted = true;
             this.LoginCommand.ChangeCanExecute();
 
-            this._navigationService.MoveToPage(Navigation.Pages.Registration);
+            var result = await this._authorizationService.LoginAsync(loginData);
+
+            if (!result)
+            {
+                this.ErrorText = Localization.Login_Error;
+                this.loginError = true;
+                this.OnPropertyChanged(nameof(this.ShowError));
+            }
+
+            this.isLoginProcessStarted = false;
+            this.LoginCommand.ChangeCanExecute();
         }
 
         public void OnPageLoaded()
         {
+            if (this.pageLoaded)
+            {
+                return;
+            }
+
+            this.pageLoaded = true;
+
+            this.OnAuthorizationStatusChanged(this.lastAuthorizationStatus);
         }
 
         public void OnPageUnloaded()
         {
+            if (!this.pageLoaded)
+            {
+                return;
+            }
 
+            this.pageLoaded = false;
         }
 
         #region IDisposable
@@ -116,6 +167,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
                 if (disposing)
                 {
                     this.networkStateChangeDisposable?.Dispose();
+                    this.authorizationStatusDisposable?.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override finalizer

@@ -10,6 +10,7 @@ namespace AtaRK.Mobile.Navigation
         Login,
         Registration,
         Groups,
+        GroupInfo,
         Profile,
         DeviceInfo,
         DeviceInitialization,

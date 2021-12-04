@@ -61,6 +61,42 @@ namespace AtaRK.Mobile.Resources.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Devices.
+        /// </summary>
+        internal static string GroupInfo_ListTitle {
+            get {
+                return ResourceManager.GetString("GroupInfo_ListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while refreshing group&apos;s devices.
+        /// </summary>
+        internal static string GroupInfo_RefreshError {
+            get {
+                return ResourceManager.GetString("GroupInfo_RefreshError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My groups.
+        /// </summary>
+        internal static string Groups_ListTitle {
+            get {
+                return ResourceManager.GetString("Groups_ListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while refreshing your groups.
+        /// </summary>
+        internal static string Groups_RefreshError {
+            get {
+                return ResourceManager.GetString("Groups_RefreshError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project was created by Dmytro Yevtushenko PI-19-5.
         /// </summary>
         internal static string Intro_Description {
@@ -106,6 +142,15 @@ namespace AtaRK.Mobile.Resources.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login error.
+        /// </summary>
+        internal static string Login_Error {
+            get {
+                return ResourceManager.GetString("Login_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the password.
         /// </summary>
         internal static string Login_Password {
@@ -120,6 +165,51 @@ namespace AtaRK.Mobile.Resources.Texts {
         internal static string NetworkConnection_Error {
             get {
                 return ResourceManager.GetString("NetworkConnection_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Co owner.
+        /// </summary>
+        internal static string UserRole_CoOwner {
+            get {
+                return ResourceManager.GetString("UserRole_CoOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner.
+        /// </summary>
+        internal static string UserRole_Owner {
+            get {
+                return ResourceManager.GetString("UserRole_Owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectator.
+        /// </summary>
+        internal static string UserRole_Spectator {
+            get {
+                return ResourceManager.GetString("UserRole_Spectator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undefined.
+        /// </summary>
+        internal static string UserRole_Undefined {
+            get {
+                return ResourceManager.GetString("UserRole_Undefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User.
+        /// </summary>
+        internal static string UserRole_User {
+            get {
+                return ResourceManager.GetString("UserRole_User", resourceCulture);
             }
         }
     }

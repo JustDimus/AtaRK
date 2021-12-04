@@ -18,6 +18,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ApplicationLocalization.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\Pages\GroupInfoPage.xaml.cs">
+      <DependentUpon>GroupInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Pages\IntroPage.xaml.cs">
       <DependentUpon>IntroPage.xaml</DependentUpon>
     </Compile>
@@ -32,6 +35,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\MainPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\DeviceInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\GroupInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Pages\GroupsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Pages\IntroPage.xaml">

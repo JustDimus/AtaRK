@@ -38,14 +38,31 @@
                 <Setter Property="FontSize" Value="Large"/>
                 <Setter Property="TextColor" Value="Black"/>
             </Style>
+            <Style x:Key="Title" TargetType="Label">
+                <Setter Property="FontSize" Value="26"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            <Style x:Key="ListDescriptionError" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="TextColor" Value="Red"/>
+            </Style>
+            <Style x:Key="ImageButtonDefault" TargetType="ImageButton">
+                <Setter Property="BackgroundColor" Value="White"/>
+            </Style>
             <Style x:Key="DefaultEntry" TargetType="Entry">
                 <Setter Property="FontSize" Value="Large"/>
                 <Setter Property="PlaceholderColor" Value="WhiteSmoke"/>
                 <Setter Property="BackgroundColor" Value="AntiqueWhite"/>
                 <Setter Property="TextColor" Value="Black" />
             </Style>
+            <Style x:Key="SmallDescription" TargetType="Label">
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="FontSize" Value="24"/>
+            </Style>
             <viewModels:ApplicationLocator x:Key="Locator" />
             <converters:BoolInverseConverter x:Key="BoolInverter"/>
+            <converters:DeviceCodeConverter x:Key="DeviceCodeConverter"/>
+            <converters:DeviceTypeConverter x:Key="DeviceTypeConverter"/>
         </ResourceDictionary>        
     </Application.Resources>
 </Application>

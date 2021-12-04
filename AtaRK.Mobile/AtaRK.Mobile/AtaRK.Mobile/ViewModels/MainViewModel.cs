@@ -63,6 +63,15 @@ namespace AtaRK.Mobile.ViewModels
                 case Mobile.Navigation.Pages.Registration:
                     resultPage = new RegisterPage();
                     break;
+                case Mobile.Navigation.Pages.Groups:
+                    resultPage = new GroupsPage();
+                    break;
+                case Mobile.Navigation.Pages.GroupInfo:
+                    resultPage = new GroupInfoPage();
+                    break;
+                case Mobile.Navigation.Pages.DeviceInfo:
+                    resultPage = new DeviceInfoPage();
+                    break;
                 default:
                     break;
             }

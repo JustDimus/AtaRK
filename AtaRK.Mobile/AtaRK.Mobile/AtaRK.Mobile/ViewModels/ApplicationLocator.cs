@@ -1,8 +1,13 @@
 ﻿using AtaRK.Mobile.Navigation;
 using AtaRK.Mobile.Services;
+using AtaRK.Mobile.Services.Authorization;
 using AtaRK.Mobile.Services.Credentials;
+using AtaRK.Mobile.Services.DataManager;
+using AtaRK.Mobile.Services.Device;
+using AtaRK.Mobile.Services.Group;
 using AtaRK.Mobile.Services.Implementations;
 using AtaRK.Mobile.Services.Network;
+using AtaRK.Mobile.Services.Serializer;
 using AtaRK.Mobile.ViewModels.Pages;
 using AtaRK.Mobile.Views.Pages;
 using Nancy.TinyIoc;
@@ -26,13 +31,25 @@ namespace AtaRK.Mobile.ViewModels
             container.Register<MainViewModel>().AsSingleton();
             container.Register<IntroViewModel>().AsSingleton();
             container.Register<LoginViewModel>().AsSingleton();
+            container.Register<GroupsViewModel>().AsSingleton();
+            container.Register<GroupInfoViewModel>().AsSingleton();
+            container.Register<DeviceInfoViewModel>().AsSingleton();
             container.Register<RegistrationViewModel>().AsSingleton();
-            container.Register<IApplicationProperties, ApplicationProperties>();
-            container.Register<INetworkConnectionService, NetworkConnectionService>().AsSingleton();
+            container.Register<IApplicationProperties, ApplicationProperties>().AsSingleton();
+            container.Register<INetworkService, NetworkService>().AsSingleton();
+            container.Register<NetworkSettings>().AsSingleton().AsSingleton();
+            container.Register<ISerializer, Serializer>().AsSingleton();
 #if DEBUG
-            container.Register<ICredentialsManager, DesignTimeCredentialsManager>();
+            container.Register<ICredentialsManager, DesignTimeCredentialsManager>().AsSingleton();
+            container.Register<IAuthorizationService, DesignTimeAuthorizationService>().AsSingleton();
+            container.Register<INetworkConnectionService, DesignTimeNetworkConnectionService>().AsSingleton();
+            container.Register<IDataManager, DesignTimeDataManager>().AsSingleton();
+            container.Register<IGroupService, DesignTimeGroupService>().AsSingleton();
+            container.Register<IDeviceService, DesignTimeDeviceService>().AsSingleton();
 #elif RELEASE
             container.Register<ICredentialsManager, CredentialsManager>();
+            container.Register<IAuthorizationService, AuthorizationService>().AsSingleton();
+            container.Register<INetworkConnectionService, NetworkConnectionService>().AsSingleton();
 #endif
 
             this.MainPageViewModel = container.Resolve<MainViewModel>();
@@ -42,6 +59,9 @@ namespace AtaRK.Mobile.ViewModels
             {
                 this.LoginPageViewModel = container.Resolve<LoginViewModel>();
                 this.RegistrationPageViewModel = container.Resolve<RegistrationViewModel>();
+                this.GroupsPageViewModel = container.Resolve<GroupsViewModel>();
+                this.GroupInfoPageViewModel = container.Resolve<GroupInfoViewModel>();
+                this.DeviceInfoPageViewModel = container.Resolve<DeviceInfoViewModel>();
                 this.IntroPageViewModel.AllPagesViewModelsLoaded = true;
             });
         }
@@ -54,7 +74,13 @@ namespace AtaRK.Mobile.ViewModels
 
         public RegistrationViewModel RegistrationPageViewModel { get; private set; }
 
-#region IDisposable
+        public GroupsViewModel GroupsPageViewModel { get; private set; }
+
+        public GroupInfoViewModel GroupInfoPageViewModel { get; private set; }
+
+        public DeviceInfoViewModel DeviceInfoPageViewModel { get; private set; }
+
+        #region IDisposable
         private bool disposedValue;
         protected virtual void Dispose(bool disposing)
         {
@@ -68,7 +94,7 @@ namespace AtaRK.Mobile.ViewModels
                 this.pageViewModelsTask.Dispose();
                 this.container?.Dispose();
 
-                disposedValue = true;
+                this.disposedValue = true;
             }
         }
 
@@ -78,6 +104,6 @@ namespace AtaRK.Mobile.ViewModels
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
-#endregion
+        #endregion
     }
 }

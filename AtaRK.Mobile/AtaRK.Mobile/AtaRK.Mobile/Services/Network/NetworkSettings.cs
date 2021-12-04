@@ -4,10 +4,8 @@ using System.Text;
 
 namespace AtaRK.Mobile.Services.Network
 {
-    public class NetworkResponse
+    public class NetworkSettings
     {
-        public int Code { get; set; }
-
-        public string ResponseBody { get; set; }
+        public string BaseURL { get; } = "https://79ac-159-224-95-124.ngrok.io/api";
     }
 }

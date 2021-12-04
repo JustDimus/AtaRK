@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GroupInfo_ListTitle" xml:space="preserve">
+    <value>Devices</value>
+  </data>
+  <data name="GroupInfo_RefreshError" xml:space="preserve">
+    <value>Error while refreshing group's devices</value>
+  </data>
+  <data name="Groups_ListTitle" xml:space="preserve">
+    <value>My groups</value>
+  </data>
+  <data name="Groups_RefreshError" xml:space="preserve">
+    <value>Error while refreshing your groups</value>
+  </data>
   <data name="Intro_Description" xml:space="preserve">
     <value>Project was created by Dmytro Yevtushenko PI-19-5</value>
   </data>
@@ -132,10 +144,28 @@
   <data name="Login_Email" xml:space="preserve">
     <value>Enter the email</value>
   </data>
+  <data name="Login_Error" xml:space="preserve">
+    <value>Login error</value>
+  </data>
   <data name="Login_Password" xml:space="preserve">
     <value>Enter the password</value>
   </data>
   <data name="NetworkConnection_Error" xml:space="preserve">
     <value>Network error...</value>
+  </data>
+  <data name="UserRole_CoOwner" xml:space="preserve">
+    <value>Co owner</value>
+  </data>
+  <data name="UserRole_Owner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="UserRole_Spectator" xml:space="preserve">
+    <value>Spectator</value>
+  </data>
+  <data name="UserRole_Undefined" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
+  <data name="UserRole_User" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>

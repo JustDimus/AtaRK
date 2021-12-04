@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtaRK.Mobile.Android", "Ata
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtaRK.Mobile.iOS", "AtaRK.Mobile\AtaRK.Mobile.iOS\AtaRK.Mobile.iOS.csproj", "{3002CAAE-DDB8-4A2F-BEE1-60E1B729CF92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtaRK.Mobile", "AtaRK.Mobile\AtaRK.Mobile\AtaRK.Mobile.csproj", "{7D41F722-EFDF-4B43-AD5C-38F43C7A64E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtaRK.Mobile", "AtaRK.Mobile\AtaRK.Mobile\AtaRK.Mobile.csproj", "{7D41F722-EFDF-4B43-AD5C-38F43C7A64E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

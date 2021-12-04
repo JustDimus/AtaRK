@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.GroupInfoPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding GroupInfoPageViewModel, Source={StaticResource Locator}}"
+             Style="{DynamicResource BasePage}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.1*"/>
+                <RowDefinition Height="0.8*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <ImageButton Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_back.png"
+                         HorizontalOptions="StartAndExpand"
+                         Command="{Binding GoBackToGroupsCommand}"
+                         Grid.Row="0"/>
+            <Label Grid.Row="1"
+                   Style="{DynamicResource Title}"
+                   Text="{Binding GroupName}"
+                   HorizontalOptions="CenterAndExpand"
+                   Padding="0,25,0,0"/>
+            <Label Grid.Row="2"
+                   Style="{DynamicResource SmallDescription}"
+                   Text="{Binding UserRole}"
+                   HorizontalOptions="EndAndExpand"
+                   Margin="0,5,20,0" />
+            <ImageButton Grid.Row="3"
+                         Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_refresh.png"
+                         Command="{Binding RefreshDeviceListCommand}"
+                         Margin="0,5,15,0"
+                         HorizontalOptions="EndAndExpand" />
+            <StackLayout Grid.Row="4"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0,15,0,0">
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding DeviceListTitleText}"
+                       HorizontalTextAlignment="Center" />
+                <ListView ItemsSource="{Binding DeviceList}"
+                          SelectionMode="Single"
+                          SelectedItem="{Binding OnDeviceSelected, Mode=OneWayToSource}"
+                          IsEnabled="{Binding ListRefreshedSuccessfully}"
+                          IsVisible="{Binding ListRefreshedSuccessfully}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand"
+                                                 Spacing="25">
+                                        <Label Text="{Binding DeviceType, Converter={StaticResource DeviceTypeConverter}}"
+                                               FontSize="16"
+                                               Margin="15,0,0,0"/>
+                                        <Label Text="{Binding DeviceCode, Converter={StaticResource DeviceCodeConverter}}"
+                                               FontSize="16" />
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Style="{DynamicResource ListDescriptionError}"
+                       Text="{Binding DeviceListRefreshError}"
+                       IsVisible="{Binding ListRefreshedSuccessfully, Converter={StaticResource BoolInverter}}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</local:BasePage>

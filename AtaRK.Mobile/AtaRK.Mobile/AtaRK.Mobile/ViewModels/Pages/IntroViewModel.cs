@@ -12,7 +12,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
 {
     public class IntroViewModel : IPageViewModel, IDisposable
     {
-        private const int MAX_WAIT_TIME = 7;
+        private const int MAX_WAIT_TIME = 150;
 
         private bool allViewModelsLoaded = false;
         

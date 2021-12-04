@@ -15,7 +15,7 @@
         <Image Source="app_logo.jpg" />
         <Label Text="{Binding DescriptionText}" FontSize="Medium" HorizontalTextAlignment="Center"/>
         <Image Source="loading.gif" IsAnimationPlaying="True" />
-        <Label Text="{Binding LoadingText}}" FontSize="30" HorizontalOptions="CenterAndExpand"/>
+        <Label Text="{Binding LoadingText}" FontSize="30" HorizontalOptions="CenterAndExpand"/>
     </StackLayout>
     
 </local:BasePage>

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using AtaRK.Mobile.Services.Network.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AtaRK.Mobile.Services.Network
 {
-    public interface INetworkService
+    public interface INetworkService : IDisposable
     {
-        Task<NetworkResponse> SendRequestAsync(NetworkRequest request);
+        Task<INetworkResponse> SendRequestAsync(INetworkRequest request);
     }
 }
