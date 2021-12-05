@@ -7,8 +7,8 @@ namespace AtaRK.Mobile.Services.NetworkRequests
 {
     public class JsonNetworkRequest : NetworkRequest
     {
-        public JsonNetworkRequest(Uri url, RequestMethod method)
-            : base(url, method, @"application/json")
+        public JsonNetworkRequest(string url, RequestMethod method)
+            : base(new Uri(url, UriKind.Relative), method, @"application/json")
         {
 
         }

@@ -7,7 +7,11 @@ namespace AtaRK.Mobile.Services.Authorization
 {
     public interface IAuthorizationService
     {
-        Task<bool> LoginAsync(LoginData loginData);
+        Task<bool> AuthorizeAsync(LoginData loginData);
+
+        Task<string> GetLastUsedToken();
+
+        Task<string> UpdateToken();
 
         IObservable<bool> AuthorizationStatusObserbavle { get; }
     }

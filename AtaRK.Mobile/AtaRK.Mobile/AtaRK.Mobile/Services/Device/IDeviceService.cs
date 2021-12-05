@@ -1,5 +1,6 @@
 ﻿using AtaRK.Mobile.Models;
 using AtaRK.Mobile.Services.DataManager;
+using AtaRK.Mobile.Services.Device.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +12,16 @@ namespace AtaRK.Mobile.Services.Device
     {
         IObservable<DeviceInfo> DeviceInfoObservable { get; }
 
+        IObservable<ChangeDeviceSettingContext> DeviceSettingObservable { get; }
+
         Task<RequestContext<ListData<DeviceInfo>>> GetGroupDevices(string groupId);
 
         Task<bool> GetDeviceInfo(string deviceId);
+
+        Task<RequestContext<ListData<DeviceSetting>>> GetDeviceSettings(string deviceId);
+
+        void SetCurrentSettingChangeContext(ChangeDeviceSettingContext settingContext);
+
+        Task<bool> SaveDeviceSettingContext(ChangeDeviceSettingContext settingContext);
     }
 }

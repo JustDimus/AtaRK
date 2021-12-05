@@ -8,7 +8,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
     public class RegisterNetworkRequest : JsonNetworkRequest
     {
         public RegisterNetworkRequest(string email, string password, string firstName, string secondName)
-            : base(new Uri(@"./account/register", UriKind.Relative), Network.Models.RequestMethod.POST)
+            : base(@"./account/register", Network.Models.RequestMethod.POST)
         {
             this.Body = JsonConvert.SerializeObject(new RegisterBody()
             {

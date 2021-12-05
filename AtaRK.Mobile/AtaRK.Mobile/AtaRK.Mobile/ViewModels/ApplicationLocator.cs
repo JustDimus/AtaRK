@@ -7,6 +7,8 @@ using AtaRK.Mobile.Services.Device;
 using AtaRK.Mobile.Services.Group;
 using AtaRK.Mobile.Services.Implementations;
 using AtaRK.Mobile.Services.Network;
+using AtaRK.Mobile.Services.Network.NetworkConnection;
+using AtaRK.Mobile.Services.Network.Service;
 using AtaRK.Mobile.Services.Serializer;
 using AtaRK.Mobile.ViewModels.Pages;
 using AtaRK.Mobile.Views.Pages;
@@ -35,6 +37,7 @@ namespace AtaRK.Mobile.ViewModels
             container.Register<GroupInfoViewModel>().AsSingleton();
             container.Register<DeviceInfoViewModel>().AsSingleton();
             container.Register<RegistrationViewModel>().AsSingleton();
+            container.Register<ChangeSettingViewModel>().AsSingleton();
             container.Register<IApplicationProperties, ApplicationProperties>().AsSingleton();
             container.Register<INetworkService, NetworkService>().AsSingleton();
             container.Register<NetworkSettings>().AsSingleton().AsSingleton();
@@ -50,6 +53,7 @@ namespace AtaRK.Mobile.ViewModels
             container.Register<ICredentialsManager, CredentialsManager>();
             container.Register<IAuthorizationService, AuthorizationService>().AsSingleton();
             container.Register<INetworkConnectionService, NetworkConnectionService>().AsSingleton();
+            container.Register<IDataManager, NetworkDataManager>().AsSingleton();
 #endif
 
             this.MainPageViewModel = container.Resolve<MainViewModel>();
@@ -62,6 +66,7 @@ namespace AtaRK.Mobile.ViewModels
                 this.GroupsPageViewModel = container.Resolve<GroupsViewModel>();
                 this.GroupInfoPageViewModel = container.Resolve<GroupInfoViewModel>();
                 this.DeviceInfoPageViewModel = container.Resolve<DeviceInfoViewModel>();
+                this.ChangeSettingPageViewModel = container.Resolve<ChangeSettingViewModel>();
                 this.IntroPageViewModel.AllPagesViewModelsLoaded = true;
             });
         }
@@ -79,6 +84,8 @@ namespace AtaRK.Mobile.ViewModels
         public GroupInfoViewModel GroupInfoPageViewModel { get; private set; }
 
         public DeviceInfoViewModel DeviceInfoPageViewModel { get; private set; }
+
+        public ChangeSettingViewModel ChangeSettingPageViewModel { get; private set; }
 
         #region IDisposable
         private bool disposedValue;

@@ -4,17 +4,13 @@ using System.Reactive.Subjects;
 using System.Text;
 using Xamarin.Essentials;
 
-namespace AtaRK.Mobile.Services.Network
+namespace AtaRK.Mobile.Services.Network.NetworkConnection
 {
     public class NetworkConnectionService : INetworkConnectionService
     {
         private bool lastNetworkStatus = false;
 
         private ReplaySubject<bool> replaySubject;
-
-        public NetworkConnectionService()
-        {
-        }
 
         public bool NetworkStatus => this.lastNetworkStatus;
 
@@ -23,7 +19,7 @@ namespace AtaRK.Mobile.Services.Network
             if (replaySubject == null)
             {
                 this.replaySubject = new ReplaySubject<bool>(1);
-                
+
                 Connectivity.ConnectivityChanged += (sender, e) => this.OnConnectivityChanged(e.NetworkAccess);
 
                 this.OnConnectivityChanged(Connectivity.NetworkAccess);

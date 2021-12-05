@@ -7,7 +7,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
 {
     public abstract class BaseAuthorizationNetworkRequest : JsonNetworkRequest
     {
-        public BaseAuthorizationNetworkRequest(Uri url, RequestMethod method, string token)
+        public BaseAuthorizationNetworkRequest(string url, RequestMethod method, string token)
             : base(url, method)
         {
             this.Headers.Add(new KeyValuePair<string, string>("Authorization", token));

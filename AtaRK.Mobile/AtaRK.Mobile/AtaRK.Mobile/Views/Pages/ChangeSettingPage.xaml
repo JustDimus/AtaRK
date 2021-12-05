@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.ChangeSettingPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding ChangeSettingPageViewModel, Source={StaticResource Locator}}"
+             Style="{DynamicResource BasePage}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <ImageButton Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_back.png"
+                         HorizontalOptions="StartAndExpand"
+                         Command="{Binding GoBackToDeviceInfoCommand}"
+                         Grid.Row="0"/>
+            <Label Grid.Row="1"
+                   Style="{DynamicResource Title}"
+                   Text="{Binding ChangeSettingText}"
+                   FontSize="23"
+                   HorizontalOptions="CenterAndExpand"
+                   Padding="0,25,0,0"/>
+            <StackLayout Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0,15,0,0">
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding SettingTitleText}"
+                       HorizontalTextAlignment="Center" />
+                <Label Style="{StaticResource EntryDescription}"
+                       Text="{Binding CurrentSetting}"
+                       HorizontalTextAlignment="Center" />
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding ValueTitleText}"
+                       HorizontalTextAlignment="Center" />
+                <Entry Style="{StaticResource DefaultEntry}"
+                       Text="{Binding CurrentValue}"
+                       FontSize="18"
+                       HorizontalTextAlignment="Center"
+                       WidthRequest="250"/>
+                <Button Style="{StaticResource GreenButton}"
+                        Text="{Binding SaveButtonText}"
+                        Command="{Binding ApplySettingCommand}"
+                        WidthRequest="250"/>
+                <Label Style="{DynamicResource ErrorLabel}"
+                       Text="{Binding SaveSettingErrorText}"
+                       IsVisible="{Binding SaveSettingError}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</local:BasePage>

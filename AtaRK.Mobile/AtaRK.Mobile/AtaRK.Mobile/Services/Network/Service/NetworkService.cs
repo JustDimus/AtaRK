@@ -7,17 +7,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AtaRK.Mobile.Services.Network
+namespace AtaRK.Mobile.Services.Network.Service
 {
     public class NetworkService : INetworkService
     {
-        private HttpClient client;
+        private HttpClient client = null;
 
         public NetworkService(
             NetworkSettings settings)
         {
             this.client = new HttpClient();
-            this.client.BaseAddress = new Uri(settings.BaseURL);
+
+            if (settings.UseRelativeUrls)
+            {
+                this.client.BaseAddress = new Uri(settings.BaseURL);
+            }
         }
 
         public Task<INetworkResponse> SendRequestAsync(INetworkRequest request)
@@ -61,13 +65,12 @@ namespace AtaRK.Mobile.Services.Network
                         ResponseBody = await response.Content.ReadAsStringAsync()
                     };
                 }
-                catch (InvalidOperationException)
+                catch (Exception ex)
                 {
-
-                }
-                catch (HttpRequestException)
-                {
-
+                    result = new NetworkResponse()
+                    {
+                        ResponseCode = -1
+                    };
                 }
             }
 

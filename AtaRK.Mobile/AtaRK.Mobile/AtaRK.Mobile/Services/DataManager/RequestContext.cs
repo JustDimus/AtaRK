@@ -17,6 +17,15 @@ namespace AtaRK.Mobile.Services.DataManager
 
             return context.IsSuccessful;
         }
+
+
+        public static RequestContext<TEntity> FromStatus<TEntity>(bool status)
+        {
+            return new RequestContext<TEntity>()
+            {
+                IsSuccessful = status
+            };
+        }
     }
 
     public class RequestContext<TEntity> : RequestContext

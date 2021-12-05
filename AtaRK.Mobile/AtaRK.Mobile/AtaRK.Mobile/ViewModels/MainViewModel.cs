@@ -72,6 +72,9 @@ namespace AtaRK.Mobile.ViewModels
                 case Mobile.Navigation.Pages.DeviceInfo:
                     resultPage = new DeviceInfoPage();
                     break;
+                case Mobile.Navigation.Pages.ChangeDeviceSetting:
+                    resultPage = new ChangeSettingPage();
+                    break;
                 default:
                     break;
             }

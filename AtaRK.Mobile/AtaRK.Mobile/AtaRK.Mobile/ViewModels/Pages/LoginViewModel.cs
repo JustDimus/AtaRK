@@ -42,7 +42,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
             this.LoginCommand = new Command(async () => await this.Login(), () => this.CanLogin);
 
             this.networkStateChangeDisposable = this._networkConnection.Subscribe(this.OnNetworkConnectionChanged);
-            this.authorizationStatusDisposable = this._authorizationService.AuthorizationStatusObserbavle.Where(i => i).Subscribe(this.OnAuthorizationStatusChanged);
+            this.authorizationStatusDisposable = this._authorizationService.AuthorizationStatusObserbavle.Subscribe(this.OnAuthorizationStatusChanged);
         }
 
         public string LoginButtonText => Localization.Login_Button;
@@ -121,7 +121,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
             this.isLoginProcessStarted = true;
             this.LoginCommand.ChangeCanExecute();
 
-            var result = await this._authorizationService.LoginAsync(loginData);
+            var result = await this._authorizationService.AuthorizeAsync(loginData);
 
             if (!result)
             {

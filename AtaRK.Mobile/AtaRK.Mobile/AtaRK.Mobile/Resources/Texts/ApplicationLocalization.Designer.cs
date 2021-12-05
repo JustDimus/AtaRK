@@ -61,6 +61,78 @@ namespace AtaRK.Mobile.Resources.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string ChangeDeviceSetting_SaveButton {
+            get {
+                return ResourceManager.GetString("ChangeDeviceSetting_SaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while saving device setting.
+        /// </summary>
+        internal static string ChangeDeviceSetting_SaveError {
+            get {
+                return ResourceManager.GetString("ChangeDeviceSetting_SaveError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changing device&apos;s setting.
+        /// </summary>
+        internal static string ChangeDeviceSetting_Title {
+            get {
+                return ResourceManager.GetString("ChangeDeviceSetting_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while refreshing device&apos;s settings.
+        /// </summary>
+        internal static string DeviceInfo_RefreshError {
+            get {
+                return ResourceManager.GetString("DeviceInfo_RefreshError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string DeviceInfo_Settings {
+            get {
+                return ResourceManager.GetString("DeviceInfo_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setting:.
+        /// </summary>
+        internal static string DeviceInfo_SettingTitle {
+            get {
+                return ResourceManager.GetString("DeviceInfo_SettingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device:.
+        /// </summary>
+        internal static string DeviceInfo_Title {
+            get {
+                return ResourceManager.GetString("DeviceInfo_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value:.
+        /// </summary>
+        internal static string DeviceInfo_ValueTitle {
+            get {
+                return ResourceManager.GetString("DeviceInfo_ValueTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Devices.
         /// </summary>
         internal static string GroupInfo_ListTitle {

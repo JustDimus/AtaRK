@@ -1,5 +1,6 @@
 ﻿using AtaRK.Mobile.Services.Authorization.Models;
 using AtaRK.Mobile.Services.Network;
+using AtaRK.Mobile.Services.Network.Service;
 using AtaRK.Mobile.Services.NetworkRequests;
 using AtaRK.Mobile.Services.Serializer;
 using System;
@@ -13,6 +14,8 @@ namespace AtaRK.Mobile.Services.Authorization
 {
     public class AuthorizationService : IAuthorizationService
     {
+        private static int SUCCESS_RESPONSE_CODE = 200;
+
         private readonly INetworkService _networkService;
         private readonly ISerializer _serializer;
 
@@ -31,19 +34,17 @@ namespace AtaRK.Mobile.Services.Authorization
 
         public IObservable<bool> AuthorizationStatusObserbavle => authorizationStatusSubject.AsObservable();
 
-        public async Task<string> GetToken()
+        public async Task<string> GetLastUsedToken()
         {
-            if (this.lastLoginData == null)
+            if (this.lastUsedToken == null)
             {
-                return null;
+                return await this.UpdateToken();
             }
-
-            var loginResult = await this.LoginAsync(this.lastLoginData);
 
             return this.lastUsedToken;
         }
 
-        public async Task<bool> LoginAsync(LoginData loginData)
+        public async Task<bool> AuthorizeAsync(LoginData loginData)
         {
             if (loginData == null)
             {
@@ -54,15 +55,28 @@ namespace AtaRK.Mobile.Services.Authorization
 
             var result = await this._networkService.SendRequestAsync(request);
 
-            if (result.ResponseCode == 200)
+            if (result.ResponseCode == SUCCESS_RESPONSE_CODE)
             {
                 var token = this._serializer.Deserialize<AuthorizationModel>(result.ResponseBody);
 
-                this.lastUsedToken = token.Token;
-                this.lastLoginData = loginData;
+                if (token != null)
+                {
+                    this.lastUsedToken = token.Token;
+                    this.lastLoginData = loginData;
+                    return true;
+                }
             }
 
             return false;
+        }
+
+        public async Task<string> UpdateToken()
+        {
+            var authorizationResult = await this.AuthorizeAsync(lastLoginData);
+
+            this.authorizationStatusSubject.OnNext(authorizationResult);
+
+            return this.lastUsedToken;
         }
     }
 }

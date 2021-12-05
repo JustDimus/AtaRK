@@ -3,14 +3,67 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AtaRK.Mobile.Views.Pages.DeviceInfoPage"
              xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
-             BindingContext="{Binding GroupInfoPageViewModel, Source={StaticResource Locator}}"
+             BindingContext="{Binding DeviceInfoPageViewModel, Source={StaticResource Locator}}"
+             xmlns:viewModels="clr-namespace:AtaRK.Mobile.ViewModels.Pages"
              Style="{DynamicResource BasePage}"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <ImageButton Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_back.png"
+                         HorizontalOptions="StartAndExpand"
+                         Command="{Binding GoBackToGroupCommand}"
+                         Grid.Row="0"/>
+            <Label Grid.Row="1"
+                   Style="{DynamicResource Title}"
+                   Text="{Binding DeviceTitle, Converter={StaticResource DeviceTitleConverter}}"
+                   FontSize="23"
+                   HorizontalOptions="CenterAndExpand"
+                   Padding="0,25,0,0"/>
+            <StackLayout Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0,15,0,0">
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding DeviceSettingsListTitle}"
+                       HorizontalTextAlignment="Center" />
+                <ListView ItemsSource="{Binding DeviceSettingsCollection}"
+                          SelectionMode="Single"
+                          SelectedItem="{Binding OnSettingSelected, Mode=OneWayToSource}"
+                          IsEnabled="{Binding ListRefreshedSuccessfully}"
+                          IsVisible="{Binding ListRefreshedSuccessfully}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <StackLayout Orientation="Vertical"
+                                                 Spacing="5">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label VerticalOptions="CenterAndExpand"
+                                               Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:DeviceInfoViewModel}}, Path=SettingTitleText}" />
+                                            <Label VerticalOptions="CenterAndExpand"
+                                               Text="{Binding Setting}" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label VerticalOptions="CenterAndExpand"
+                                               Text="{Binding Source={RelativeSource AncestorType={x:Type viewModels:DeviceInfoViewModel}}, Path=SettingValueText}" />
+                                            <Label VerticalOptions="CenterAndExpand"
+                                               Text="{Binding Value}" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Style="{DynamicResource ListDescriptionError}"
+                       Text="{Binding SettingsListRefreshError}"
+                       IsVisible="{Binding ListRefreshedSuccessfully, Converter={StaticResource BoolInverter}}"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </local:BasePage>

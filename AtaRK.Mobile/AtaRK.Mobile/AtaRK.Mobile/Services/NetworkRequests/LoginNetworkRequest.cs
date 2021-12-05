@@ -8,7 +8,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
     public class LoginNetworkRequest : JsonNetworkRequest
     {
         public LoginNetworkRequest(string email, string password)
-            : base(new Uri(@"./account/login", UriKind.Relative), Network.Models.RequestMethod.POST)
+            : base(@"./account/login", Network.Models.RequestMethod.POST)
         {
             this.Body = JsonConvert.SerializeObject(new LoginBody()
             {

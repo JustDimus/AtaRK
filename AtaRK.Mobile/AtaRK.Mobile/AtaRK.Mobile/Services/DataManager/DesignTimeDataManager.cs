@@ -8,6 +8,35 @@ namespace AtaRK.Mobile.Services.DataManager
 {
     public class DesignTimeDataManager : IDataManager
     {
+        public Task<RequestContext<ListData<DeviceSetting>>> GetDeviceSettings(string deviceId)
+        {
+            return Task.FromResult(new RequestContext<ListData<DeviceSetting>>()
+            {
+                IsSuccessful = true,
+                Result = new ListData<DeviceSetting>()
+                {
+                    Elements = new List<DeviceSetting>
+                    {
+                        new DeviceSetting()
+                        {
+                            Setting = "Enabled",
+                            Value = "false"
+                        },
+                        new DeviceSetting()
+                        {
+                            Setting = "AllowedKey",
+                            Value = "0012-3213-3335-8567-1234"
+                        },
+                        new DeviceSetting()
+                        {
+                            Setting = "AllowedKey",
+                            Value = "0012-3213-3335-8567-1234"
+                        }
+                    }
+                }
+            });
+        }
+
         public Task<RequestContext<ListData<DeviceInfo>>> GetGroupDevices(string groupId)
         {
             var random = new Random();

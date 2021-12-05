@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Subjects;
 using System.Text;
 
-namespace AtaRK.Mobile.Services.Network
+namespace AtaRK.Mobile.Services.Network.NetworkConnection
 {
     [ExcludeFromCodeCoverage]
     public class DesignTimeNetworkConnectionService : INetworkConnectionService

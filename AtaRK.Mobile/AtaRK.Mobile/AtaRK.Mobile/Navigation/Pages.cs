@@ -12,6 +12,7 @@ namespace AtaRK.Mobile.Navigation
         Groups,
         GroupInfo,
         Profile,
+        ChangeDeviceSetting,
         DeviceInfo,
         DeviceInitialization,
         Error

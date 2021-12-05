@@ -7,13 +7,13 @@ namespace AtaRK.Mobile.Models
 {
     public class DeviceInfo
     {
-        [JsonProperty("id")]
+        [JsonProperty("device_id")]
         public string Id { get; set; }
 
-        [JsonProperty("type")]
+        [JsonProperty("device_type")]
         public string DeviceType { get; set; }
 
-        [JsonProperty("code")]
+        [JsonProperty("device_code")]
         public string DeviceCode { get; set; }
     }
 }

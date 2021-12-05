@@ -17,7 +17,7 @@ namespace AtaRK.Mobile.Services.Authorization
 
         public IObservable<bool> AuthorizationStatusObserbavle => this.authorizationStatusSubject.AsObservable();
 
-        public Task<bool> LoginAsync(LoginData loginData)
+        public Task<bool> AuthorizeAsync(LoginData loginData)
         {
             return Task.FromResult(DEFAULT_AUTHORIZATION_STATUS);
         }

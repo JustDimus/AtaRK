@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChangeDeviceSetting_SaveButton" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ChangeDeviceSetting_SaveError" xml:space="preserve">
+    <value>Error while saving device setting</value>
+  </data>
+  <data name="ChangeDeviceSetting_Title" xml:space="preserve">
+    <value>Changing device's setting</value>
+  </data>
+  <data name="DeviceInfo_RefreshError" xml:space="preserve">
+    <value>Error while refreshing device's settings</value>
+  </data>
+  <data name="DeviceInfo_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="DeviceInfo_SettingTitle" xml:space="preserve">
+    <value>Setting:</value>
+  </data>
+  <data name="DeviceInfo_Title" xml:space="preserve">
+    <value>Device:</value>
+  </data>
+  <data name="DeviceInfo_ValueTitle" xml:space="preserve">
+    <value>Value:</value>
+  </data>
   <data name="GroupInfo_ListTitle" xml:space="preserve">
     <value>Devices</value>
   </data>
