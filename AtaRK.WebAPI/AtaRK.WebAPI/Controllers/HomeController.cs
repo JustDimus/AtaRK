@@ -10,7 +10,7 @@ namespace AtaRK.WebAPI.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return new JsonResult("{ \"Hello\" : \"World\"}");
         }
     }
 }
