@@ -63,6 +63,7 @@ namespace AtaRK.Mobile.Services.Authorization
                 {
                     this.lastUsedToken = token.Token;
                     this.lastLoginData = loginData;
+                    this.authorizationStatusSubject.OnNext(true);
                     return true;
                 }
             }

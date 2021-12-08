@@ -44,6 +44,8 @@ namespace AtaRK.Mobile.ViewModels.Pages
             this.RefreshDeviceListCommand = new Command(async () => await this.RefreshDevicesList(), () => !this.refreshProcessStarted);
 
             this.groupInfoDisposable = this._groupService.GroupInfoObservable.Subscribe(async (i) => await this.OnGroupInfoChanged(i));
+
+            this.GoToDeviceInitialization = new Command(this.SwitchToDeviceInitialization);
         }
 
         public IEnumerable<DeviceInfo> DeviceList => this.lastDeviceList?.Elements;
@@ -51,6 +53,8 @@ namespace AtaRK.Mobile.ViewModels.Pages
         public Command GoBackToGroupsCommand { get; private set; }
 
         public Command RefreshDeviceListCommand { get; private set; }
+
+        public Command GoToDeviceInitialization { get; private set; }
 
         public DeviceInfo OnDeviceSelected
         {
@@ -62,7 +66,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
                 }
             }
         }
-
+        
         private string groupName;
         public string GroupName
         {
@@ -146,6 +150,16 @@ namespace AtaRK.Mobile.ViewModels.Pages
             }
 
             this._navigationService.MoveToPage(Navigation.Pages.Groups);
+        }
+        
+        private void SwitchToDeviceInitialization()
+        {
+            if (!this.pageLoaded)
+            {
+                return;
+            }
+
+            this._navigationService.MoveToPage(Navigation.Pages.DeviceInitialization);
         }
 
         private async Task RefreshDevicesList()

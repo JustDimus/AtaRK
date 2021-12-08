@@ -34,6 +34,7 @@ namespace AtaRK.Mobile.Services.DataManager
             IAuthorizationService authorizationService,
             ISerializer serializer)
         {
+            this._serializer = serializer;
             this._networkService = networkService;
             this._authorizationService = authorizationService;
             this._connectionService = networkConnectionService;
@@ -43,6 +44,20 @@ namespace AtaRK.Mobile.Services.DataManager
         }
 
         private bool CanSendRequest => this.lastNetworkConnectionStatus;
+
+        public async Task<bool> CreateNewDevice(CreateNewDeviceContext settingContext)
+        {
+            return await this.SendRequestWithAuthorizationWithoutResponse(token => new CreateNewDeviceNetworkRequest(
+                settingContext.GroupId,
+                settingContext.DeviceType,
+                settingContext.DeviceCode,
+                token));
+        }
+
+        public async Task<RequestContext<FullGroupInfo>> GetGroupInfo(string groupId)
+        {
+            return await this.SendRequestWithAuthorization<FullGroupInfo>(token => new GetGroupInformationNetworkRequest(groupId, token));
+        }
 
         public async Task<RequestContext<ListData<DeviceSetting>>> GetDeviceSettings(string deviceId)
         {
@@ -92,7 +107,7 @@ namespace AtaRK.Mobile.Services.DataManager
 
             var authorizationToken = await this._authorizationService.UpdateToken();
 
-            if (!this.lastAuthorizationStatus)
+            if (!string.IsNullOrEmpty(authorizationToken))
             {
                 var request = requestConstructor?.Invoke(authorizationToken);
 
@@ -128,7 +143,7 @@ namespace AtaRK.Mobile.Services.DataManager
 
             var authorizationToken = await this._authorizationService.UpdateToken();
 
-            if (!this.lastAuthorizationStatus)
+            if (this.lastAuthorizationStatus)
             {
                 var request = requestConstructor?.Invoke(authorizationToken);
 

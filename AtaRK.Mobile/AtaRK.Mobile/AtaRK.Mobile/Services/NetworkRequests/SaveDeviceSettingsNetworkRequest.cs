@@ -8,7 +8,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
     public class SaveDeviceSettingsNetworkRequest : BaseAuthorizationNetworkRequest
     {
         public SaveDeviceSettingsNetworkRequest(string deviceId, string setting, string value, string token)
-            : base (@"./device/applysettings", Network.Models.RequestMethod.POST, token)
+            : base (@"device/update", Network.Models.RequestMethod.POST, token)
         {
             this.Body = JsonConvert.SerializeObject(new SaveDeviceSettingsBody()
             {

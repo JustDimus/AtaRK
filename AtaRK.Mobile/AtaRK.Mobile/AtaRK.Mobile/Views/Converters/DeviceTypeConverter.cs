@@ -12,6 +12,11 @@ namespace AtaRK.Mobile.Views.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
             if (value is string deviceType)
             {
                 if (deviceType.Length > DEVICETYPE_MAX_LENGTH)

@@ -1,4 +1,5 @@
 ﻿using AtaRK.Mobile.Models;
+using AtaRK.Mobile.Services.Device.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,19 @@ namespace AtaRK.Mobile.Services.DataManager
 {
     public class DesignTimeDataManager : IDataManager
     {
+        public Task<RequestContext<DeviceInfo>> GetDeviceInfo(string deviceId)
+        {
+            return Task.FromResult(new RequestContext<DeviceInfo>()
+            {
+                IsSuccessful = true,
+                Result = new DeviceInfo()
+                {
+                    Id = deviceId,
+                    DeviceName = "Device name there"
+                }
+            });
+        }
+
         public Task<RequestContext<ListData<DeviceSetting>>> GetDeviceSettings(string deviceId)
         {
             return Task.FromResult(new RequestContext<ListData<DeviceSetting>>()
@@ -50,13 +64,17 @@ namespace AtaRK.Mobile.Services.DataManager
                     {
                         new DeviceInfo()
                         {
-                            DeviceType = $"Device-{random.Next(0, 3)}",
-                            DeviceCode = $"jgvkdfopgjdiofhsduifgbjklwebfhidfvbnjif",
+                            DeviceName = "Device name there",
                             Id = $"{new Guid().ToString()}"
                         }
                     }
                 }
             });
+        }
+
+        public Task<RequestContext<FullGroupInfo>> GetGroupInfo(string groupId)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<RequestContext<ListData<GroupInfo>>> GetGroupsInfo()
@@ -93,6 +111,21 @@ namespace AtaRK.Mobile.Services.DataManager
                     }
                 }
             });
+        }
+
+        public Task<bool> CreateNewDevice(ChangeDeviceSettingContext settingContext)
+        {
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> CreateNewDevice(CreateNewDeviceContext settingContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveDeviceSetting(ChangeDeviceSettingContext settingContext)
+        {
+            throw new NotImplementedException();
         }
     }
 }

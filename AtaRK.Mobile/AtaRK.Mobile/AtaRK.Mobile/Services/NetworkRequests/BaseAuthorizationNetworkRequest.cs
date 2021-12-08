@@ -10,7 +10,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
         public BaseAuthorizationNetworkRequest(string url, RequestMethod method, string token)
             : base(url, method)
         {
-            this.Headers.Add(new KeyValuePair<string, string>("Authorization", token));
+            this.Headers.Add(new KeyValuePair<string, string>("Authorization", $"Bearer {token}"));
         }
     }
 }

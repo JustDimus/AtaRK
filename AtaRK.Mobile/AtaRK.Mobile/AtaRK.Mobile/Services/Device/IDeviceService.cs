@@ -23,5 +23,7 @@ namespace AtaRK.Mobile.Services.Device
         void SetCurrentSettingChangeContext(ChangeDeviceSettingContext settingContext);
 
         Task<bool> SaveDeviceSettingContext(ChangeDeviceSettingContext settingContext);
+
+        Task<bool> AddDeviceToGroup(CreateNewDeviceContext deviceContext);
     }
 }

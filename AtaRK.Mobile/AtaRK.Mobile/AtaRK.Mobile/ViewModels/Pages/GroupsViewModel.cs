@@ -4,6 +4,7 @@ using AtaRK.Mobile.Services.Authorization;
 using AtaRK.Mobile.Services.DataManager;
 using AtaRK.Mobile.Services.Group;
 using AtaRK.Mobile.Services.Network;
+using AtaRK.Mobile.Services.Network.NetworkConnection;
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
@@ -97,7 +98,6 @@ namespace AtaRK.Mobile.ViewModels.Pages
 
             this.pageLoaded = false;
         }
-
 
         private void OnAuthorizationChanged(bool authorizationStatus)
         {

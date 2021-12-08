@@ -29,6 +29,11 @@ namespace AtaRK.Mobile.Services.Device
 
         public IObservable<ChangeDeviceSettingContext> DeviceSettingObservable => this._deviceSettingSubject.AsObservable();
 
+        public Task<bool> AddDeviceToGroup(CreateNewDeviceContext deviceContext)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> GetDeviceInfo(string deviceId)
         {
             var result = await this._dataManager.GetDeviceInfo(deviceId);

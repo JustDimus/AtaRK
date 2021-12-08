@@ -90,6 +90,11 @@ namespace AtaRK.Mobile.Services.Device
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public Task<bool> AddDeviceToGroup(CreateNewDeviceContext deviceContext)
+        {
+            return this._dataManager.CreateNewDevice(deviceContext);
+        }
         #endregion
     }
 }

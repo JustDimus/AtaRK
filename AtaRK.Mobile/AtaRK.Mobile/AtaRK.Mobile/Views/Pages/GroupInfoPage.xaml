@@ -35,7 +35,12 @@
                          Source="icon_refresh.png"
                          Command="{Binding RefreshDeviceListCommand}"
                          Margin="0,5,15,0"
-                         HorizontalOptions="EndAndExpand" />
+                         HorizontalOptions="End" />
+            <ImageButton Grid.Row="3"
+                         Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_plus.png"
+                         Command="{Binding GoToDeviceInitialization}"
+                         HorizontalOptions="Center" />
             <StackLayout Grid.Row="4"
                          HorizontalOptions="CenterAndExpand"
                          Margin="0,15,0,0">
@@ -53,11 +58,9 @@
                                 <ViewCell.View>
                                     <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand"
                                                  Spacing="25">
-                                        <Label Text="{Binding DeviceType, Converter={StaticResource DeviceTypeConverter}}"
+                                        <Label Text="{Binding DeviceName, Converter={StaticResource DeviceTypeConverter}}"
                                                FontSize="16"
                                                Margin="15,0,0,0"/>
-                                        <Label Text="{Binding DeviceCode, Converter={StaticResource DeviceCodeConverter}}"
-                                               FontSize="16" />
                                     </StackLayout>
                                 </ViewCell.View>
                             </ViewCell>

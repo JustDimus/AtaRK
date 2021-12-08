@@ -19,6 +19,7 @@
                Text="{Binding PasswordLabelText}"/>
         <Entry Style="{DynamicResource DefaultEntry}"
                Text="{Binding PasswordField, Mode=TwoWay}"
+               IsPassword="True"
                Placeholder="Password" />
         <Button Command="{Binding LoginCommand}" Text="{Binding LoginButtonText}"/>
         <Label Style="{DynamicResource ErrorLabel}"

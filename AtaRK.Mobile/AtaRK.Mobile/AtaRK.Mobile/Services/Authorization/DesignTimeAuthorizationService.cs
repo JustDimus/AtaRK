@@ -21,5 +21,15 @@ namespace AtaRK.Mobile.Services.Authorization
         {
             return Task.FromResult(DEFAULT_AUTHORIZATION_STATUS);
         }
+
+        public Task<string> GetLastUsedToken()
+        {
+            return Task.FromResult(string.Empty);
+        }
+
+        public Task<string> UpdateToken()
+        {
+            return Task.FromResult(string.Empty);
+        }
     }
 }

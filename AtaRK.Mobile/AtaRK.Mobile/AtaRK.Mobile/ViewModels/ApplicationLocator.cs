@@ -4,7 +4,9 @@ using AtaRK.Mobile.Services.Authorization;
 using AtaRK.Mobile.Services.Credentials;
 using AtaRK.Mobile.Services.DataManager;
 using AtaRK.Mobile.Services.Device;
+using AtaRK.Mobile.Services.DeviceInitialization;
 using AtaRK.Mobile.Services.Group;
+using AtaRK.Mobile.Services.Group.UserRole;
 using AtaRK.Mobile.Services.Implementations;
 using AtaRK.Mobile.Services.Network;
 using AtaRK.Mobile.Services.Network.NetworkConnection;
@@ -38,22 +40,27 @@ namespace AtaRK.Mobile.ViewModels
             container.Register<DeviceInfoViewModel>().AsSingleton();
             container.Register<RegistrationViewModel>().AsSingleton();
             container.Register<ChangeSettingViewModel>().AsSingleton();
+            container.Register<DeviceInitializationViewModel>().AsSingleton();
             container.Register<IApplicationProperties, ApplicationProperties>().AsSingleton();
             container.Register<INetworkService, NetworkService>().AsSingleton();
             container.Register<NetworkSettings>().AsSingleton().AsSingleton();
             container.Register<ISerializer, Serializer>().AsSingleton();
-#if DEBUG
+            container.Register<IUserRoleManager, UserRoleManager>();
+            container.Register<IDeviceInitializationService, DeviceInitializationService>();
+#if STUB
             container.Register<ICredentialsManager, DesignTimeCredentialsManager>().AsSingleton();
             container.Register<IAuthorizationService, DesignTimeAuthorizationService>().AsSingleton();
             container.Register<INetworkConnectionService, DesignTimeNetworkConnectionService>().AsSingleton();
             container.Register<IDataManager, DesignTimeDataManager>().AsSingleton();
             container.Register<IGroupService, DesignTimeGroupService>().AsSingleton();
             container.Register<IDeviceService, DesignTimeDeviceService>().AsSingleton();
-#elif RELEASE
+#elif DEV
             container.Register<ICredentialsManager, CredentialsManager>();
             container.Register<IAuthorizationService, AuthorizationService>().AsSingleton();
             container.Register<INetworkConnectionService, NetworkConnectionService>().AsSingleton();
             container.Register<IDataManager, NetworkDataManager>().AsSingleton();
+            container.Register<IGroupService, DesignTimeGroupService>().AsSingleton();
+            container.Register<IDeviceService, DeviceService>().AsSingleton();
 #endif
 
             this.MainPageViewModel = container.Resolve<MainViewModel>();
@@ -67,6 +74,7 @@ namespace AtaRK.Mobile.ViewModels
                 this.GroupInfoPageViewModel = container.Resolve<GroupInfoViewModel>();
                 this.DeviceInfoPageViewModel = container.Resolve<DeviceInfoViewModel>();
                 this.ChangeSettingPageViewModel = container.Resolve<ChangeSettingViewModel>();
+                this.DeviceInitializationPageViewModel = container.Resolve<DeviceInitializationViewModel>();
                 this.IntroPageViewModel.AllPagesViewModelsLoaded = true;
             });
         }
@@ -86,6 +94,8 @@ namespace AtaRK.Mobile.ViewModels
         public DeviceInfoViewModel DeviceInfoPageViewModel { get; private set; }
 
         public ChangeSettingViewModel ChangeSettingPageViewModel { get; private set; }
+
+        public DeviceInitializationViewModel DeviceInitializationPageViewModel { get; private set; }
 
         #region IDisposable
         private bool disposedValue;

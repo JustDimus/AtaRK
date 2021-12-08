@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AtaRK.Mobile.Services.Group.UserRole
 {
-    public class UserRoleManager
+    public class UserRoleManager : IUserRoleManager
     {
         public UserRole GetUserRole(string userRole)
         {

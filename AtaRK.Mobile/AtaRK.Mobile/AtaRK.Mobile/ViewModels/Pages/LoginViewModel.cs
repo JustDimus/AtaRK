@@ -2,6 +2,7 @@
 using AtaRK.Mobile.Services.Authorization;
 using AtaRK.Mobile.Services.Credentials;
 using AtaRK.Mobile.Services.Network;
+using AtaRK.Mobile.Services.Network.NetworkConnection;
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
@@ -127,6 +128,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
             {
                 this.ErrorText = Localization.Login_Error;
                 this.loginError = true;
+                this.OnPropertyChanged(nameof(this.ErrorText));
                 this.OnPropertyChanged(nameof(this.ShowError));
             }
 

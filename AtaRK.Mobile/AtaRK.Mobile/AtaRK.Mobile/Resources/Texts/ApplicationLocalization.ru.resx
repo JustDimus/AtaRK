@@ -141,6 +141,21 @@
   <data name="DeviceInfo_ValueTitle" xml:space="preserve">
     <value>Значение:</value>
   </data>
+  <data name="DeviceInitialization_AddButton" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="DeviceInitialization_CannotAdd" xml:space="preserve">
+    <value>Не удалось добавить устройство</value>
+  </data>
+  <data name="DeviceInitialization_DeviceCode" xml:space="preserve">
+    <value>Код устройства</value>
+  </data>
+  <data name="DeviceInitialization_DeviceType" xml:space="preserve">
+    <value>Тип устройства</value>
+  </data>
+  <data name="DeviceInitialization_Title" xml:space="preserve">
+    <value>Подключенное устройство</value>
+  </data>
   <data name="GroupInfo_ListTitle" xml:space="preserve">
     <value>Устройства</value>
   </data>

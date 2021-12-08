@@ -53,7 +53,7 @@ namespace AtaRK.Mobile.Services.Network.Service
         {
             INetworkResponse result = null;
 
-            using (CancellationTokenSource source = new CancellationTokenSource(10000))
+            using (CancellationTokenSource source = new CancellationTokenSource(100000))
             {
                 try
                 {

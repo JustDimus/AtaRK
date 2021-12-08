@@ -13,9 +13,13 @@ namespace AtaRK.Mobile.Services.DataManager
 
         Task<RequestContext<ListData<DeviceInfo>>> GetGroupDevices(string groupId);
 
+        Task<RequestContext<FullGroupInfo>> GetGroupInfo(string groupId);
+
         Task<RequestContext<ListData<DeviceSetting>>> GetDeviceSettings(string deviceId);
 
         Task<RequestContext<DeviceInfo>> GetDeviceInfo(string deviceId);
+
+        Task<bool> CreateNewDevice(CreateNewDeviceContext settingContext);
 
         Task<bool> SaveDeviceSetting(ChangeDeviceSettingContext settingContext);
     }

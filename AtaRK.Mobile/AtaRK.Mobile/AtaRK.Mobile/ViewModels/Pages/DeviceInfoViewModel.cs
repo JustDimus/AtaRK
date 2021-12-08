@@ -111,7 +111,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
 
             this.lastDeviceInfo = device;
 
-            this.DeviceTitle = string.Concat(Localization.DeviceInfo_Title, " ", device.DeviceType);
+            this.DeviceTitle = string.Concat(Localization.DeviceInfo_Title, " ", device.DeviceName);
 
             await this.RefreshDeviceSettings();
         }

@@ -15,26 +15,33 @@ namespace AtaRK.Mobile.Services.Group
         private ReplaySubject<GroupInformation> _groupInfoSubject = new ReplaySubject<GroupInformation>(1);
 
         private IDataManager _dataManager;
+        private IUserRoleManager _roleManager;
 
         public DesignTimeGroupService(
-            IDataManager dataManager)
+            IDataManager dataManager,
+            IUserRoleManager roleManager)
         {
             this._dataManager = dataManager;
+            this._roleManager = roleManager;
         }
 
         public IObservable<GroupInformation> GroupInfoObservable => this._groupInfoSubject.AsObservable();
 
-        public Task<bool> GetGroupInfo(string groupId)
+        public async Task<bool> GetGroupInfo(string groupId)
         {
-            var groupInfo = new GroupInformation()
+            var groupInfo = await this._dataManager.GetGroupInfo(groupId);
+
+            if (groupInfo)
             {
-                GroupName = "Group Name",
-                UserRole = UserRole.UserRole.CoOwner
-            };
+                this._groupInfoSubject.OnNext(new GroupInformation()
+                {
+                    GroupId = groupId,
+                    GroupName = groupInfo.Result.GroupName,
+                    UserRole = this._roleManager.GetUserRole(groupInfo.Result.UserRole)
+                });
+            }
 
-            this._groupInfoSubject.OnNext(groupInfo);
-
-            return Task.FromResult(true);
+            return groupInfo;
         }
 
         public Task<RequestContext<ListData<GroupInfo>>> GetGroups()

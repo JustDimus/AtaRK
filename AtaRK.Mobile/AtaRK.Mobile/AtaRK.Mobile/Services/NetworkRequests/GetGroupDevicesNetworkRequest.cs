@@ -8,7 +8,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
     public class GetGroupDevicesNetworkRequest : BaseAuthorizationNetworkRequest
     {
         public GetGroupDevicesNetworkRequest(string groupId, string token)
-            : base(@"./device/getdevices", Network.Models.RequestMethod.POST, token)
+            : base(@"device/list", Network.Models.RequestMethod.POST, token)
         {
             this.Body = JsonConvert.SerializeObject(new GetGroupDevicesBody()
             {

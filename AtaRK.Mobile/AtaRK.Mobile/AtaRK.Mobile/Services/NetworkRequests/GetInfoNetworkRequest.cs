@@ -7,7 +7,7 @@ namespace AtaRK.Mobile.Services.NetworkRequests
     public class GetInfoNetworkRequest : BaseAuthorizationNetworkRequest
     {
         public GetInfoNetworkRequest(string token)
-            : base(@"./account/info", Network.Models.RequestMethod.GET, token)
+            : base(@"account/info", Network.Models.RequestMethod.GET, token)
         {
 
         }

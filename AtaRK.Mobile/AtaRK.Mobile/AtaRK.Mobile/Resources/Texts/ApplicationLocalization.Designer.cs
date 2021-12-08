@@ -133,6 +133,51 @@ namespace AtaRK.Mobile.Resources.Texts {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string DeviceInitialization_AddButton {
+            get {
+                return ResourceManager.GetString("DeviceInitialization_AddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t add the device to group.
+        /// </summary>
+        internal static string DeviceInitialization_CannotAdd {
+            get {
+                return ResourceManager.GetString("DeviceInitialization_CannotAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device code.
+        /// </summary>
+        internal static string DeviceInitialization_DeviceCode {
+            get {
+                return ResourceManager.GetString("DeviceInitialization_DeviceCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device type.
+        /// </summary>
+        internal static string DeviceInitialization_DeviceType {
+            get {
+                return ResourceManager.GetString("DeviceInitialization_DeviceType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected device.
+        /// </summary>
+        internal static string DeviceInitialization_Title {
+            get {
+                return ResourceManager.GetString("DeviceInitialization_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Devices.
         /// </summary>
         internal static string GroupInfo_ListTitle {
