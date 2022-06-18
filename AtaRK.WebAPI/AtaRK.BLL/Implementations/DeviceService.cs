@@ -158,7 +158,8 @@ namespace AtaRK.BLL.Implementations
 
             try
             {
-                var accountGroup = await this._accountGroupRepository.FirstOrDefaultAsync(i => i.AccountId == account.Id && i.GroupId == groupId.Id);
+                var accountGroup = await this._accountGroupRepository
+                    .FirstOrDefaultAsync(i => i.AccountId == account.Id && i.GroupId == groupId.Id);
 
                 if (accountGroup == null || accountGroup.Role == MemberRole.Spectator)
                 {
