@@ -282,7 +282,7 @@ namespace AtaRK.BLL.Implementations
 
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return ServiceResult<List<DeviceSettingInformation>>.Instance(false);
             }

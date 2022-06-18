@@ -4,14 +4,16 @@ using AtaRK.EF.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AtaRK.EF.Migrations
 {
     [DbContext(typeof(AtaRKDataContext))]
-    partial class AtaRKDataContextModelSnapshot : ModelSnapshot
+    [Migration("20220618102035_Added device functionality")]
+    partial class Addeddevicefunctionality
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -465,7 +465,7 @@ namespace AtaRK.BLL.Implementations
                         && i.GroupId == groupId.Id);
 
                 if (groupAccountInfo == null
-                    || (groupAccountInfo.Role >= currentUserGroupAccountInfo.Role))
+                    || (groupAccountInfo.Role <= currentUserGroupAccountInfo.Role && groupAccountInfo.Role != MemberRole.Undefined))
                 {
                     return false;
                 }

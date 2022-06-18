@@ -60,7 +60,7 @@ namespace AtaRK.WebAPI.Controllers
                 IsAdminOnlyDevice = deviceInfo.IsAdminOnly
             };
 
-            var serviceResult = await this._deviceService.InitializeDevice(deviceInitializationInfo, groupInfo);
+            var serviceResult = await this._deviceService.InitializeDevice(deviceInitializationInfo, groupInfo, deviceInfo.IsAdminOnly);
 
             if (serviceResult)
             {

@@ -86,7 +86,14 @@ namespace AtaRK.DAL.Implementations
 
         public Task<IEnumerable<TEntity>> SelectAsync(Expression<Func<TEntity, bool>> condition)
         {
-            throw new NotImplementedException();
+            using (CancellationTokenSource source = new CancellationTokenSource(this._defaultTokenTime))
+            {
+                return Task.Run(() =>
+                {
+                    return this._context.Set<TEntity>().Where(condition).AsEnumerable();
+                },
+                source.Token);
+            }
         }
 
         public Task<IEnumerable<TEntity>> SelectAsync(Expression<Func<TEntity, bool>> condition, int skip, int take)
