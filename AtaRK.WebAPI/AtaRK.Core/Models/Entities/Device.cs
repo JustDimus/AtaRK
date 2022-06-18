@@ -16,5 +16,7 @@ namespace AtaRK.Core.Models.Entities
         public Guid GroupId { get; set; }
 
         public List<Configuration> Configurations { get; set; }
+
+        public bool AdminOnlyAccess { get; set; }
     }
 }

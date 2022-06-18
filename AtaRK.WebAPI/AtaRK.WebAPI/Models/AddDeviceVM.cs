@@ -16,5 +16,8 @@ namespace AtaRK.WebAPI.Models
 
         [JsonProperty("device_code")]
         public string DeviceCode { get; set; }
+
+        [JsonProperty("is_admin_only")]
+        public bool IsAdminOnly { get; set; }
     }
 }

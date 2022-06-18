@@ -9,5 +9,7 @@ namespace AtaRK.BLL.Models.DTO
         public string DeviceType { get; set; }
 
         public string UniqueId { get; set; }
+
+        public bool IsAdminOnlyDevice { get; set; }
     }
 }

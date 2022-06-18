@@ -13,5 +13,8 @@ namespace AtaRK.WebAPI.Models
 
         [JsonProperty("settings")]
         public List<DeviceSettingVM> Settings { get; set; }
+
+        [JsonProperty("is_admin_only")]
+        public bool IsAdminOnly { get; set; }
     }
 }
