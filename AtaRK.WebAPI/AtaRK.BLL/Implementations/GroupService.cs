@@ -265,9 +265,53 @@ namespace AtaRK.BLL.Implementations
             }
         }
 
-        public Task<ServiceResult<GroupInfo>> GetGroupInformation(GroupIdentifier group)
+        public async Task<ServiceResult<GroupInfo>> GetGroupInformation(GroupIdentifier groupInfo)
         {
-            throw new NotImplementedException();
+            if (groupInfo == null)
+            {
+                this._logger.Error($"{nameof(groupInfo)} is null");
+                return ServiceResult<GroupInfo>.Instance(false);
+            }
+
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            if (account == null)
+            {
+                this._logger.Error("Unable to get authorized account");
+                return ServiceResult<GroupInfo>.Instance(false);
+            }
+
+            try
+            {
+                var group = await this._groupRepository.FirstOrDefaultAsync(i => i.Id == groupInfo.Id);
+
+                if (group == null)
+                {
+                    this._logger.Error($"Group with id: '{groupInfo.Id}' doesn't exist");
+                    return ServiceResult<GroupInfo>.Instance(false); ;
+                }
+
+                var accountGroupInfo = await this._accountGroupRepository
+                    .FirstOrDefaultAsync(i => i.AccountId == account.Id
+                        && i.GroupId == groupInfo.Id);
+
+                if (accountGroupInfo == null)
+                {
+                    this._logger.Error($"User can't be found in group");
+                    return ServiceResult<GroupInfo>.Instance(false);
+                }
+
+                return ServiceResult<GroupInfo>.FromResult(new GroupInfo()
+                {
+                    GroupName = groupInfo.Name,
+                    UserRole = this.GetGroupRole(accountGroupInfo.Role)
+                });
+            }
+            catch (Exception ex)
+            {
+                this._logger.Error(ex, ex.InnerException.Message);
+                return ServiceResult<GroupInfo>.Instance(false);
+            }
         }
 
         public async Task<ServiceResult> UpdateGroupAsync(GroupIdentifier groupInfo, string newName)
@@ -392,6 +436,89 @@ namespace AtaRK.BLL.Implementations
                 this._logger.Error(ex, ex.InnerException.Message);
                 return ServiceResult<List<InviteIdentifier>>.Instance(false);
             }
+        }
+
+        public async Task<ServiceResult> ChangeUserRole(GroupIdentifier groupId, AuthorizationIdentifier accountId, string newRole)
+        {
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            if (account == null)
+            {
+                this._logger.Error("Unable to get authorized account");
+                return false;
+            }
+
+            try
+            {
+                var currentUserGroupAccountInfo = await this._accountGroupRepository
+                    .FirstOrDefaultAsync(i => i.AccountId == account.Id
+                        && i.GroupId == groupId.Id);
+
+                if (currentUserGroupAccountInfo == null
+                    || (currentUserGroupAccountInfo.Role != MemberRole.Owner && currentUserGroupAccountInfo.Role != MemberRole.CoOwner))
+                {
+                    return false;
+                }
+
+                var groupAccountInfo = await this._accountGroupRepository
+                    .FirstOrDefaultAsync(i => i.AccountId == accountId.Id
+                        && i.GroupId == groupId.Id);
+
+                if (groupAccountInfo == null
+                    || (groupAccountInfo.Role >= currentUserGroupAccountInfo.Role))
+                {
+                    return false;
+                }
+
+                var assignedRole = this.GetGroupRoleFromString(newRole);
+
+                if (assignedRole == MemberRole.Undefined)
+                {
+                    return false;
+                }
+
+                groupAccountInfo.Role = assignedRole;
+
+                await this._accountGroupRepository.UpdateAsync(groupAccountInfo);
+
+                if (assignedRole == MemberRole.Owner)
+                {
+                    currentUserGroupAccountInfo.Role = MemberRole.CoOwner;
+                    await this._accountGroupRepository.UpdateAsync(currentUserGroupAccountInfo);
+                }
+
+                await this._accountGroupRepository.SaveAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        private MemberRole GetGroupRoleFromString(string memberRole)
+        {
+            return memberRole switch
+            {
+                "Owner" => MemberRole.Owner,
+                "CoOwner" => MemberRole.CoOwner,
+                "Spectator" => MemberRole.Spectator,
+                "User" => MemberRole.User,
+                _ => MemberRole.Undefined
+            };
+        }
+
+        private string GetGroupRole(MemberRole memberRole)
+        {
+            return memberRole switch
+            {
+                MemberRole.Owner => "Owner",
+                MemberRole.CoOwner => "CoOwner",
+                MemberRole.Spectator => "Spectator",
+                MemberRole.User => "User",
+                _ => "Undefined"
+            };
         }
     }
 }

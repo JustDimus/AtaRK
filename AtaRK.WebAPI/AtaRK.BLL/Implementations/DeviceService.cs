@@ -16,12 +16,16 @@ namespace AtaRK.BLL.Implementations
 
         private readonly IRepository<Configuration> _deviceConfigurationRepository;
 
+        private readonly IAuthorizationService _authorizationService;
+
         public DeviceService(
             IRepository<Device> deviceRepository,
-            IRepository<Configuration> configurationRepository)
+            IRepository<Configuration> configurationRepository,
+            IAuthorizationService authorizationService)
         {
             this._deviceConfigurationRepository = configurationRepository ?? throw new ArgumentNullException(nameof(configurationRepository));
             this._deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
+            this._authorizationService = authorizationService;
 
         }
 
@@ -43,6 +47,15 @@ namespace AtaRK.BLL.Implementations
         public Task<ServiceResult> UpdateDeviceSettings(DeviceIdentifier deviceInfo, List<DeviceSettingInformation> settings)
         {
             throw new NotImplementedException();
+        }
+
+        private bool GetCurrentAccount(out AuthorizationIdentifier authorizationIdentifier)
+        {
+            var account = this._authorizationService.GetAuthorizedAccountFromCurrentContext();
+
+            authorizationIdentifier = account;
+
+            return account != null;
         }
     }
 }

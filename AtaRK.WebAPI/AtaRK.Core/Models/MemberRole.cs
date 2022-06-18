@@ -4,7 +4,7 @@ using System.Text;
 
 namespace AtaRK.Core.Models
 {
-    public enum MemberRole
+    public enum MemberRole : int
     {
         Undefined = 0,
         Owner = 1,

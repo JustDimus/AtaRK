@@ -77,6 +77,30 @@ namespace AtaRK.WebAPI.Controllers
         }
 
         [HttpPost]
+        [Route("changeuserrole")]
+        public async Task<IActionResult> ChangeUserRole([FromBody] ChangeUserRoleVM changeUserRoleContext)
+        {
+            var groupInfo = this.DeserializeGroupInfo(changeUserRoleContext.GroupId);
+            var accountInfo = this._authorizationService.GetAuthorizedAccount(changeUserRoleContext.AccountId);
+
+            if (groupInfo != null && accountInfo != null)
+            {
+                var serviceResult = await this._groupService.ChangeUserRole(groupInfo, accountInfo, changeUserRoleContext.NewRole);
+
+                if (serviceResult)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return Conflict();
+                }
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPost]
         [Route("invite")]
         public async Task<IActionResult> Invite([FromBody] CreateInviteVM invite)
         {

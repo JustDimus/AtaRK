@@ -24,5 +24,7 @@ namespace AtaRK.BLL.Interfaces
         Task<ServiceResult> OperateInvitation(InviteIdentifier invite, bool doAccept);
 
         Task<ServiceResult<GroupInfo>> GetGroupInformation(GroupIdentifier group);
+
+        Task<ServiceResult> ChangeUserRole(GroupIdentifier groupId, AuthorizationIdentifier accountId, string newRole);
     }
 }
