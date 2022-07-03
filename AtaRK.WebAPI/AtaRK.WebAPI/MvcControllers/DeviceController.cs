@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AtaRK.WebAPI.Controllers
+namespace AtaRK.WebAPI.MvcControllers
 {
-    public class HomeController : Controller
+    public class DeviceController : Controller
     {
         public IActionResult Index()
         {
-            return new JsonResult("{ \"Hello\" : \"World\"}");
+            return View();
         }
     }
 }

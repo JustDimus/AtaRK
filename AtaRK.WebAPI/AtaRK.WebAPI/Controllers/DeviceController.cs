@@ -37,7 +37,7 @@ namespace AtaRK.WebAPI.Controllers
 
             if (serviceResult)
             {
-                return new JsonResult(new { Devices = serviceResult.Result.Select(i => new
+                return new JsonResult(new { list = serviceResult.Result.Select(i => new
                 {
                     Name = i.Name,
                     Id = this.SerializeDeviceInfo(i)
@@ -121,8 +121,8 @@ namespace AtaRK.WebAPI.Controllers
                 return new JsonResult(new
                 {
                     Name = deviceId.Name,
-                    Id = deviceId.Id,
-                    Settings = serviceResult.Result.Select(i => new { Setting = i.Name, Value = i.Value})
+                    Id = this.SerializeDeviceInfo(deviceId),
+                    list = serviceResult.Result.Select(i => new { setting = i.Name, value = i.Value})
                 });
             }
 

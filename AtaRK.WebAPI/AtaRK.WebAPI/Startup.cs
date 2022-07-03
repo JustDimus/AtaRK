@@ -63,7 +63,7 @@ namespace AtaRK.WebAPI
                 });
 
             services
-                .AddControllers()
+                .AddControllersWithViews()
                 .AddNewtonsoftJson()
                 .AddFluentValidation(configuration =>
                 {
@@ -82,6 +82,8 @@ namespace AtaRK.WebAPI
             services.AddTransient<IGroupService, GroupService>();
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+            services.AddHttpClient
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,8 +93,14 @@ namespace AtaRK.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
