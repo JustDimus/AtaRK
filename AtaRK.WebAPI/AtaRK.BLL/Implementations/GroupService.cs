@@ -7,15 +7,29 @@ using AtaRK.DAL.Interfaces;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AtaRK.BLL.Implementations
 {
+    public class Logger
+    {
+        public void Error(string message, string ex = null)
+        {
+            Debug.WriteLine($"message, ${(ex == null ? "" : ex)}");
+        }
+
+        public void Error(Exception message, string ex = null)
+        {
+            Debug.WriteLine($"message, ${(ex == null ? "" : ex)}");
+        }
+    }
+
     public class GroupService : IGroupService
     {
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger _logger = new Logger();
 
         private readonly IAuthorizationService _authorizationService;
 
@@ -186,20 +200,29 @@ namespace AtaRK.BLL.Implementations
                             && i.GroupId == invite.GroupId
                             && (i.Role == MemberRole.CoOwner || i.Role == MemberRole.Owner));
 
-                    if (!creatorStillExist)
+                    bool isAccountGroupExist = await this._accountGroupRepository.AnyAsync(i =>
+                        i.AccountId == account.Id && i.GroupId == invite.GroupId);
+
+                    if (!isAccountGroupExist)
                     {
-                        this._logger.Error($"Creator: '{invite.CreatorId}' doesn't exist in the group: '{invite.GroupId}'");
-                        return false;
+
+                        if (!creatorStillExist)
+                        {
+                            this._logger.Error($"Creator: '{invite.CreatorId}' doesn't exist in the group: '{invite.GroupId}'");
+
+                            await this._inviteRepository.DeleteAsync(existingInvite);
+                            return false;
+                        }
+
+                        var accountDevice = new AccountDeviceGroup()
+                        {
+                            AccountId = invite.InvitedId,
+                            GroupId = invite.GroupId,
+                            Role = MemberRole.Spectator
+                        };
+
+                        await this._accountGroupRepository.CreateAsync(accountDevice);
                     }
-
-                    var accountDevice = new AccountDeviceGroup()
-                    {
-                        AccountId = invite.InvitedId,
-                        GroupId = invite.GroupId,
-                        Role = MemberRole.Spectator
-                    };
-
-                    await this._accountGroupRepository.CreateAsync(accountDevice);
                 }
 
                 await this._inviteRepository.DeleteAsync(existingInvite);

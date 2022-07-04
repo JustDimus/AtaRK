@@ -1,0 +1,86 @@
+﻿@model Course.MvcApp.Models.MvcModels.OrganizationShowModel
+
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="w-auto mx-auto shadow p-3 mb-5 bg-white rounded">
+    <div class="row">
+        <div class="col-8">
+            <div class="row d-flex justify-content-between">
+                <div class="col-9 text-center">
+                    <h2>
+                        @Model.Name
+                    </h2>
+                </div>
+                <div class="col-3">
+                    @if (Model.IsAdmin)
+                    {
+                        <a class="btn btn-danger" asp-controller="Course" asp-action="Edit" asp-route-courseId="@Model.OrganizationId">
+                            Change name
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="row my-1">
+                <h4>
+                    Your role: @Model.UserRole
+                </h4>
+            </div>
+            <div class="text-center my-1">
+                <h3>
+                    Devices in organization
+                </h3>
+            </div>
+            <table class="table mt-1">
+                <thead class="thead-dark">
+                <th>
+                    Device title
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+                </thead>
+                @foreach (var device in Model.Devices)
+                {
+                    <tr>
+                        <td>
+                            @device.Name
+                        </td>
+                        <td>
+                            <a class="btn btn-info" asp-controller="Device" asp-action="Show" asp-route-deviceId="@device.Id">
+                                Go to
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" asp-controller="Device" asp-action="Delete"
+                                asp-route-materialId="@device.Id">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-4">
+            <div class="text-center">
+                <img src="https://st2.depositphotos.com/3489481/5208/i/600/depositphotos_52086275-stock-photo-book-of-life.jpg"
+                     width="250" height="250" class="rounded" />
+            </div>
+            @if (Model.IsAdmin)
+            {
+                <div class="text-center mt-1">
+                    <a class="btn btn-danger" asp-controller="Organization" asp-action="Invite" asp-route-groupId="@Model.OrganizationId">
+                        Invite user
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

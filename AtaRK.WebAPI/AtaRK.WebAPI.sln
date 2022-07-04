@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtaRK.Core", "AtaRK.Core\At
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtaRK.Utility", "AtaRK.Utility\AtaRK.Utility.csproj", "{40FAD9EA-DF6A-4BCD-8FD5-EB6AF8F46143}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{F4D5F333-F449-4ACF-93A5-62570EAF8DEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Course.MvcApp", "Course.MvcApp\Course.MvcApp.csproj", "{194CCE50-3BD9-4A8F-A457-18CB380C5527}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,10 +50,10 @@ Global
 		{40FAD9EA-DF6A-4BCD-8FD5-EB6AF8F46143}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40FAD9EA-DF6A-4BCD-8FD5-EB6AF8F46143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40FAD9EA-DF6A-4BCD-8FD5-EB6AF8F46143}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4D5F333-F449-4ACF-93A5-62570EAF8DEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4D5F333-F449-4ACF-93A5-62570EAF8DEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4D5F333-F449-4ACF-93A5-62570EAF8DEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4D5F333-F449-4ACF-93A5-62570EAF8DEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{194CCE50-3BD9-4A8F-A457-18CB380C5527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{194CCE50-3BD9-4A8F-A457-18CB380C5527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{194CCE50-3BD9-4A8F-A457-18CB380C5527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{194CCE50-3BD9-4A8F-A457-18CB380C5527}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

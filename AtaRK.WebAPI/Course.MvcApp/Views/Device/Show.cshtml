@@ -1,0 +1,70 @@
+﻿@model Course.MvcApp.Models.MvcModels.DeviceShowModel
+
+@{
+    ViewData["Title"] = "Show";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Device information</h1>
+
+<div class="w-auto mx-auto shadow p-3 mb-5 bg-white rounded">
+    <div class="row">
+        <div class="col-12">
+            <div class="row d-flex justify-content-between">
+                <div class="col-9 text-center">
+                    <h2>
+                        @Model.DeviceName
+                    </h2>
+                </div>
+                <div class="col-3">
+                    <a class="btn btn-danger" asp-controller="Device" asp-action="Delete" asp-route-deviceId="@Model.DeviceId">
+                        Delete device
+                    </a>
+                </div>
+            </div>
+            <div class="text-center my-1">
+                <h3>
+                    Device settings
+                </h3>
+            </div>
+            <table class="table mt-1">
+                <thead class="thead-dark">
+                <th>
+                    Setting name
+                </th>
+                <th>
+                    Value
+                </th>
+                <th>
+                </th>
+                </thead>
+                @foreach (var setting in Model.Settings)
+                {
+                    <tr>
+                        <td>
+                            @setting.Setting
+                        </td>
+                        <td>
+                            @setting.Value
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" asp-controller="Device" asp-action="Update"
+                               asp-route-deviceId="@Model.DeviceId"
+                               asp-route-setting="@setting.Setting"
+                               asp-route-value="@setting.Value">
+                                Change setting
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+            <div class="col-3">
+                <a class="btn btn-danger" asp-controller="Device" asp-action="Update" 
+                   asp-route-deviceId="@Model.DeviceId">
+                    Add new setting
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

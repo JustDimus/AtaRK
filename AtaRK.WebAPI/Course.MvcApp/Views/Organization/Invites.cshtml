@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Course.MvcApp.Models.MvcModels.InviteModel>
+
+@{
+    ViewData["Title"] = "Invites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Invites</h1>
+
+<h4>There are all invitations users have sent you.</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.ActionLink("Accept", "OperateInvite", new { doAccept=true, inviteId = item.InviteId }) |
+                @Html.ActionLink("Deny", "OperateInvite", new { doAccept=false, inviteId = item.InviteId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
