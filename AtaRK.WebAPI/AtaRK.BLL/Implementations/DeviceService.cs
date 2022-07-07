@@ -14,6 +14,8 @@ namespace AtaRK.BLL.Implementations
 {
     public class DeviceService : IDeviceService
     {
+        private const string DEVICE_PASSWORD_MOCK = @"LE2IvP8mJm3fTMAYIv5g";
+
         private readonly IRepository<Device> _deviceRepository;
 
         private readonly IRepository<Configuration> _deviceConfigurationRepository;
@@ -22,16 +24,20 @@ namespace AtaRK.BLL.Implementations
 
         private readonly IAuthorizationService _authorizationService;
 
+        private readonly IAccountService _accountService;
+
         public DeviceService(
             IRepository<Device> deviceRepository,
             IRepository<AccountDeviceGroup> accountGroupRepository,
             IRepository<Configuration> configurationRepository,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService,
+            IAccountService accountService)
         {
             this._deviceConfigurationRepository = configurationRepository ?? throw new ArgumentNullException(nameof(configurationRepository));
             this._deviceRepository = deviceRepository ?? throw new ArgumentNullException(nameof(deviceRepository));
             this._authorizationService = authorizationService;
             this._accountGroupRepository = accountGroupRepository;
+            this._accountService = accountService;
         }
 
         public async Task<ServiceResult> DeleteDeviceAsync(DeviceIdentifier deviceInfo)
@@ -77,7 +83,9 @@ namespace AtaRK.BLL.Implementations
             }
         }
 
-        public async Task<ServiceResult<List<DeviceSettingInformation>>> GetDeviceSettings(DeviceIdentifier deviceInfo)
+        public async Task<ServiceResult<List<DeviceSettingInformation>>> GetDeviceSettings(
+            DeviceIdentifier deviceInfo,
+            bool deviceRequest = false)
         {
             if (!this.GetCurrentAccount(out var account))
             {
@@ -86,6 +94,7 @@ namespace AtaRK.BLL.Implementations
 
             try
             {
+
                 var device = await this._deviceRepository.FirstOrDefaultAsync(i => i.Id == deviceInfo.Id);
 
                 if (device == null)
@@ -93,14 +102,25 @@ namespace AtaRK.BLL.Implementations
                     return ServiceResult<List<DeviceSettingInformation>>.Instance(false);
                 }
 
-                var accountGroupInfo = await this._accountGroupRepository
-                    .FirstOrDefaultAsync(i => i.GroupId == device.GroupId && i.AccountId == account.Id);
-
-                if (accountGroupInfo == null)
+                if (deviceRequest)
                 {
-                    return ServiceResult<List<DeviceSettingInformation>>.Instance(false);
-                }
+                    var doDeviceExist = await this._deviceRepository.AnyAsync(i => account.Email.Contains(device.DeviceName));
 
+                    if (!doDeviceExist)
+                    {
+                        return ServiceResult<List<DeviceSettingInformation>>.Instance(false);
+                    }
+                }
+                else
+                {
+                    var accountGroupInfo = await this._accountGroupRepository
+                        .FirstOrDefaultAsync(i => i.GroupId == device.GroupId && i.AccountId == account.Id);
+
+                    if (accountGroupInfo == null)
+                    {
+                        return ServiceResult<List<DeviceSettingInformation>>.Instance(false);
+                    }
+                }
 
                 var settings = (await this._deviceConfigurationRepository.SelectAsync(
                     i => i.DeviceId == deviceInfo.Id,
@@ -189,7 +209,33 @@ namespace AtaRK.BLL.Implementations
                     Type = DeviceType.SARA3
                 };
 
+                var registrationResult = await this._accountService.RegisterAsync(new AccountRegistrationData()
+                {
+                    Credentials = new AccountCredentials()
+                    {
+                        Email = $"{newDevice.DeviceName}@deviceproject.com",
+                        Password = DEVICE_PASSWORD_MOCK
+                    },
+                    Information = new AccountInformation()
+                    {
+                        FirstName = "Device",
+                        SecondName = Enum.GetName(typeof(DeviceType), newDevice.Type)
+                    }
+                });
+
+                if (!registrationResult)
+                {
+                    return ServiceResult<DeviceIdentifier>.Instance(false);
+                }
+
                 await this._deviceRepository.CreateAsync(newDevice);
+
+                await this._deviceConfigurationRepository.CreateAsync(new Configuration()
+                {
+                    DeviceId = newDevice.Id,
+                    Setting = "Enabled",
+                    Value = "true"
+                });
 
                 await this._deviceRepository.SaveAsync();
 

@@ -19,6 +19,6 @@ namespace AtaRK.BLL.Interfaces
 
         Task<ServiceResult<List<DeviceIdentifier>>> GetDevicesInGroup(GroupIdentifier groupId);
 
-        Task<ServiceResult<List<DeviceSettingInformation>>> GetDeviceSettings(DeviceIdentifier deviceInfo);
+        Task<ServiceResult<List<DeviceSettingInformation>>> GetDeviceSettings(DeviceIdentifier deviceInfo, bool deviceRequest = false);
     }
 }

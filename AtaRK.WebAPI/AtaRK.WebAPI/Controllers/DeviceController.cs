@@ -129,6 +129,25 @@ namespace AtaRK.WebAPI.Controllers
             return Conflict();
         }
 
+        [HttpPost]
+        [Route("myconfig")]
+        public async Task<IActionResult> GetDeviceConfig([FromBody] SingleBodyParameter deviceInfo)
+        {
+            var deviceId = this.DeserializeDeviceInfo(deviceInfo.Body);
+
+            var serviceResult = await this._deviceService.GetDeviceSettings(deviceId, true);
+
+            if (serviceResult)
+            {
+                return new JsonResult(new
+                {
+                    list = serviceResult.Result.Select(i => new { setting = i.Name, value = i.Value })
+                });
+            }
+
+            return Conflict();
+        }
+
         private string SerializeDeviceInfo(DeviceIdentifier deviceId)
         {
             return this._encryptionService.Encrypt(deviceId);
