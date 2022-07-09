@@ -81,6 +81,7 @@ namespace AtaRK.WebAPI
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IDeviceService, DeviceService>();
             services.AddTransient<IGroupService, GroupService>();
+            services.AddTransient<IDeviceService, DeviceService>();
 
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
         }
@@ -100,8 +101,6 @@ namespace AtaRK.WebAPI
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-
-            app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();

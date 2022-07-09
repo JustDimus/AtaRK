@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.DeviceInitializationPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding DeviceInitializationPageViewModel, Source={StaticResource Locator}}"
+             Style="{DynamicResource BasePage}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.9*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <ImageButton Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_back.png"
+                         HorizontalOptions="StartAndExpand"
+                         Command="{Binding GoBackToGroupInfoCommand}"
+                         Grid.Row="0"/>
+            <Label Grid.Row="1"
+                   Style="{DynamicResource Title}"
+                   Text="{Binding DeviceTitleText}"
+                   FontSize="23"
+                   HorizontalOptions="CenterAndExpand"
+                   Padding="0,25,0,0"/>
+            <StackLayout Grid.Row="2"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0,15,0,0">
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding DeviceCodeText}"
+                       HorizontalTextAlignment="Center" />
+                <Label Style="{StaticResource EntryDescription}"
+                       Text="{Binding DeviceCode}"
+                       HorizontalTextAlignment="Center" />
+                <Label Style="{StaticResource Title}"
+                       Text="{Binding DeviceTypeText}"
+                       HorizontalTextAlignment="Center" />
+                <Label Style="{StaticResource EntryDescription}"
+                       Text="{Binding DeviceType}"
+                       HorizontalTextAlignment="Center" />
+                <Button Style="{StaticResource GreenButton}"
+                        Text="{Binding AddDeviceButtonText}"
+                        Command="{Binding AddDeviceToGroupCommand}"
+                        WidthRequest="250"/>
+                <Label Style="{DynamicResource ErrorLabel}"
+                       Text="{Binding DeviceCreationErrorText}"
+                       IsVisible="{Binding DeviceCreatedStatus, Converter={StaticResource BoolInverter}}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</local:BasePage>

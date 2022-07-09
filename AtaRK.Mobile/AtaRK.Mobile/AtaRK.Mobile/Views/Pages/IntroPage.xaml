@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.IntroPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding IntroPageViewModel, Source={StaticResource Locator}}"
+             Style="{DynamicResource BasePage}"
+             NavigationPage.HasNavigationBar="False">
+    
+    <StackLayout Spacing="20"
+                 Padding="0,25,0,0"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
+        <Label Text="{Binding WelcomeText}" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
+        <Image Source="app_logo.jpg" />
+        <Label Text="{Binding DescriptionText}" FontSize="Medium" HorizontalTextAlignment="Center"/>
+        <Image Source="loading.gif" IsAnimationPlaying="True" />
+        <Label Text="{Binding LoadingText}" FontSize="30" HorizontalOptions="CenterAndExpand"/>
+    </StackLayout>
+    
+</local:BasePage>

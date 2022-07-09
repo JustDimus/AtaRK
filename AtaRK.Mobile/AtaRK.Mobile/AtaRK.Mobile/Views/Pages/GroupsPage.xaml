@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.GroupsPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding GroupsPageViewModel, Source={StaticResource Locator}}"
+             Style="{DynamicResource BasePage}"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid Padding="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <ImageButton Style="{DynamicResource ImageButtonDefault}"
+                         Grid.Row="0" 
+                         HorizontalOptions="End"
+                         Command="{Binding RefreshCommand}"
+                         Source="icon_refresh.png" />
+            <StackLayout Grid.Row="1" Spacing="25" HorizontalOptions="CenterAndExpand">
+                <Label Style="{DynamicResource Title}"
+                       HorizontalOptions="Center"
+                       Text="{Binding ListTitleText}" />
+                <ListView ItemsSource="{Binding GroupInfoCollection}"
+                          SelectionMode="Single"
+                          SelectedItem="{Binding OnGroupSelected, Mode=OneWayToSource}"
+                          IsEnabled="{Binding ListRefreshedSuccessfully}"
+                          IsVisible="{Binding ListRefreshedSuccessfully}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Label Text="{Binding GroupName}"/>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Label Style="{DynamicResource ListDescriptionError}"
+                       Text="{Binding RefreshDataError}"
+                       IsVisible="{Binding ListRefreshedSuccessfully, Converter={StaticResource BoolInverter}}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</local:BasePage>

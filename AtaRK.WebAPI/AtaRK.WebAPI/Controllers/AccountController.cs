@@ -105,7 +105,7 @@ namespace AtaRK.WebAPI.Controllers
         
         [HttpPost]
         [Authorize]
-        [Route("change")]
+        [Route("update")]
         public async Task<IActionResult> ChangeAccount([FromBody]AccountInformationVM accountInformation)
         {
             AccountInformation accountInfo = new AccountInformation()

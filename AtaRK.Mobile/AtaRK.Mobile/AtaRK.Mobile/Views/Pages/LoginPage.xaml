@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AtaRK.Mobile.Views.Pages.LoginPage"
+             xmlns:local="clr-namespace:AtaRK.Mobile.Views.Pages"
+             BindingContext="{Binding LoginPageViewModel, Source={StaticResource Locator}}"
+             NavigationPage.HasNavigationBar="False">
+
+    <StackLayout Orientation="Vertical" 
+                 Spacing="15" 
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="Center">
+        <Label Style="{DynamicResource EntryDescription}"
+               Text="{Binding EmailLabelText}" />
+        <Entry Style="{DynamicResource DefaultEntry}"
+               Placeholder="email@email.com"
+               Text="{Binding EmailField, Mode=TwoWay}" />
+        <Label Style="{DynamicResource EntryDescription}"
+               Text="{Binding PasswordLabelText}"/>
+        <Entry Style="{DynamicResource DefaultEntry}"
+               Text="{Binding PasswordField, Mode=TwoWay}"
+               IsPassword="True"
+               Placeholder="Password" />
+        <Button Command="{Binding LoginCommand}" Text="{Binding LoginButtonText}"/>
+        <Label Style="{DynamicResource ErrorLabel}"
+               Text="{Binding ErrorText}"
+               HorizontalTextAlignment="Center"
+               IsVisible="{Binding ShowError}"/>
+    </StackLayout>
+</local:BasePage>
