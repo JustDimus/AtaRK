@@ -4,6 +4,11 @@ namespace Course.IoTEmulator
 {
     public class Logger : ILogger
     {
+        public Logger()
+        {
+            Console.ForegroundColor = ConsoleColor.Black;
+        }
+
         public void Log(string message)
         {
             Console.WriteLine(message);
