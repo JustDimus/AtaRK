@@ -30,8 +30,9 @@
                 <Label Style="{StaticResource Title}"
                        Text="{Binding SettingTitleText}"
                        HorizontalTextAlignment="Center" />
-                <Label Style="{StaticResource EntryDescription}"
+                <Entry Style="{StaticResource EntryDescription}"
                        Text="{Binding CurrentSetting}"
+                       IsReadOnly="{Binding IsSettingReadonly}"
                        HorizontalTextAlignment="Center" />
                 <Label Style="{StaticResource Title}"
                        Text="{Binding ValueTitleText}"

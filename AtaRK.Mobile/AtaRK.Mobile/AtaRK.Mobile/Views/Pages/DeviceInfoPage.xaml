@@ -14,11 +14,20 @@
                 <RowDefinition Height="0.9*"/>
                 <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-            <ImageButton Style="{StaticResource ImageButtonDefault}"
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Row="0">
+                <ImageButton Style="{StaticResource ImageButtonDefault}"
                          Source="icon_back.png"
                          HorizontalOptions="StartAndExpand"
-                         Command="{Binding GoBackToGroupCommand}"
+                         Command="{Binding GoBackToGroupCommand}"/>
+                <ImageButton Style="{StaticResource ImageButtonDefault}"
+                         Source="icon_plus.png"
+                         HorizontalOptions="StartAndExpand"
+                         Command="{Binding CreateNewSettingCommand}"
                          Grid.Row="0"/>
+            </StackLayout>
+
             <Label Grid.Row="1"
                    Style="{DynamicResource Title}"
                    Text="{Binding DeviceTitle, Converter={StaticResource DeviceTitleConverter}}"

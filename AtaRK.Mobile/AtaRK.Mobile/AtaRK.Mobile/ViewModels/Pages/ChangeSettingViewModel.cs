@@ -26,6 +26,7 @@ namespace AtaRK.Mobile.ViewModels.Pages
         private bool pageLoaded = false;
         private bool saveProcessStarted = false;
         private bool saveSettingsError = false;
+        private bool isSettingReadonly = false;
 
         private ChangeDeviceSettingContext lastDeviceSettingContext = null;
 
@@ -80,6 +81,16 @@ namespace AtaRK.Mobile.ViewModels.Pages
             }
         }
 
+        public bool IsSettingReadonly
+        {
+            get => this.isSettingReadonly;
+            set
+            {
+                this.isSettingReadonly = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command GoBackToDeviceInfoCommand { get; private set; }
 
         public Command ApplySettingCommand { get; private set; }
@@ -120,6 +131,9 @@ namespace AtaRK.Mobile.ViewModels.Pages
 
             this.CurrentSetting = settingContext.Setting;
             this.CurrentValue = settingContext.Value;
+            
+
+            this.isSettingReadonly = !string.IsNullOrEmpty(settingContext.Setting);
         }
 
         private async Task ApplySetting()

@@ -41,12 +41,15 @@ namespace AtaRK.Mobile.ViewModels.Pages
             this._authorizationService = authorizationService;
 
             this.GoBackToGroupCommand = new Command(this.ReturnToGroupInfoPage);
+            this.CreateNewSettingCommand = new Command(this.GoToSettingsPage);
 
             this.deviceChangedDisposable = this._deviceService.DeviceInfoObservable.Subscribe(async (i) => await this.OnCurrentDeviceChanged(i));
             this.authorizationChangedDisposable = this._authorizationService.AuthorizationStatusObserbavle.Subscribe(this.OnAuthorizationChanged);
         }
 
         public Command GoBackToGroupCommand { get; private set; }
+
+        public Command CreateNewSettingCommand { get; private set; }
 
         private string deviceTitle;
         public string DeviceTitle
@@ -166,6 +169,25 @@ namespace AtaRK.Mobile.ViewModels.Pages
             }
 
             this._navigationService.MoveToPage(Navigation.Pages.GroupInfo);
+        }
+
+        private void GoToSettingsPage()
+        {
+            if (!this.pageLoaded)
+            {
+                return;
+            }
+
+            var settingContext = new ChangeDeviceSettingContext()
+            {
+                DeviceId = this.lastDeviceInfo.Id,
+                Setting = string.Empty,
+                Value = string.Empty
+            };
+
+            this._deviceService.SetCurrentSettingChangeContext(settingContext);
+
+            this._navigationService.MoveToPage(Navigation.Pages.ChangeDeviceSetting);
         }
 
         #region IDisposable
